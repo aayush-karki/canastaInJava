@@ -1,2 +1,1 @@
-target/classes/edu/ramapo/akarki/App.class
-target/test-classes/edu/ramapo/akarki/AppTest.class
+target/**
