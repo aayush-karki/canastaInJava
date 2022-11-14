@@ -1,6 +1,7 @@
 package edu.ramapo.akarki.canasta.model;
 
 import edu.ramapo.akarki.canasta.exceptions.ImproperMeldException;
+import edu.ramapo.akarki.canasta.model.Card.ENUM_CardType;
 
 import java.util.Vector;
 import java.util.Set;
@@ -52,77 +53,22 @@ public class Hand {
         // inializes the hand cards
         this();
 
+        // populating the melds
         // chekcing it the meld is empty then do nothing for melds
         if (!aMeldCards.isEmpty())
         {
-            // populating hte string stream with meldCard
-            String[] meldSplited = aMeldCards.split("\\]\\s*\\[|\\[|\\]");
-
-            // populating the mHandCards
-            for (String meld : meldSplited)
+            try
             {
-                if (meld.isBlank())
-                {
-                    continue;
-                }
-
-                String[] meldCardsSplited = meld.split(" +");
-                Vector<String> meldCardsNoBlank = new Vector<String>();
-
-                // removing all the blanks
-                for (String rankSuit : meldCardsSplited)
-                {
-                    if (!rankSuit.isBlank())
-                    {
-                        meldCardsNoBlank.add(rankSuit);
-                    }
-                }
-
-                // Adding rest to the hand
-                for (String rankSuit : meldCardsNoBlank)
-                {
-                    addCardToHand(new Card(rankSuit));
-                }
-
-                // chekcing if this meld was a red three then addCardToHand
-                // would automatically make a meld
-                if (meldCardsNoBlank.size() == 1 && meldCardsNoBlank
-                        .firstElement().substring(0, 1).equals("3"))
-                {
-                    continue;
-                }
-
-                Vector<Integer> cardIdxs = new Vector<Integer>();
-                // populating the cardIdx to make a meld out of it
-                for (Integer idx = 0; idx < meldCardsNoBlank.size(); ++idx)
-                {
-                    cardIdxs.add(idx);
-                }
-
-                // making a meld
-                Pair<Boolean, String> meldReturn = makeMeld(cardIdxs);
-                if (Boolean.FALSE.equals(meldReturn.getFirst()))
-                {
-                    throw new ImproperMeldException(meldReturn.getSecond());
-                }
+                pouplateMeldsFromString(aMeldCards);
+            }
+            catch (ImproperMeldException e)
+            {
+                throw new ImproperMeldException(e.getMessage());
             }
         }
 
-        // spliting the passed hand cards
-        String[] handCardsSplited = aHandCards.split(" +");
-
-        // populating the vector at 0th index of mHandCards
-        // as the 0th vector is the place where the hand card are placed
-
-        // populating the mHandCards
-        for (String rankSuit : handCardsSplited)
-        {
-            if (!rankSuit.isBlank())
-            {
-                addCardToHand(new Card(rankSuit));
-            }
-        }
-
+        // populating the actual hand
+        pouplateActualHandFromString(aHandCards);
         /*
          * TODO (BUG): Currently wild cards are left in the hand. Possible
          * solution 1: When the round finishes initializing, loop over the hand
@@ -130,19 +76,50 @@ public class Hand {
          * When the round finishes initializing, use the computer’s AI to do as
          * much as possible until discard is left.
          */
+        /*
+         * When you do this also update the tally point test
+         */
     }
 
-    // /**
-    // * Copy Contructor for Card Class.
-    // *
-    // * @param aOtherCard, card to copy from
-    // *
-    // * @return none
-    // */
-    // public Hand(Hand aOtherhHand)
-    // {
-    // this(aOtherCard.mRank, aOtherCard.mSuit);
-    // }
+    /**
+     * Copy Contructor for Card Class.
+     *
+     * @param aOtherCard, card to copy from
+     *
+     * @return none
+     */
+    public Hand(Hand aOtherhHand)
+    {
+        this();
+
+        this.mHasCanasta = aOtherhHand.mHasCanasta;
+
+        this.mHandCards.clear();
+        for (Vector<Card> meld : aOtherhHand.mHandCards)
+        {
+            this.mHandCards.add(new Vector<Card>(meld));
+        }
+    }
+
+    /**
+     * toString funciton
+     * 
+     * @param none
+     * 
+     * @return card in the hand in the printed format
+     */
+    @Override
+    public String toString()
+    {
+        StringBuilder returnStr = new StringBuilder();
+        returnStr.append("Hand: ");
+        returnStr.append(getActualHandString());
+        returnStr.append("\nMelds: ");
+        returnStr.append(getMeldsString());
+
+        return returnStr.toString();
+
+    }
 
     /**
      * getter function get if the hand has a canasta or not
@@ -299,7 +276,7 @@ public class Hand {
      *         the first rankSuit pair represent the card that is going to be
      *         dealt next.
      */
-    String getActualHandString()
+    public String getActualHandString()
     {
         // if the are no card in the hand return ""
         if (mHandCards.firstElement().isEmpty())
@@ -329,7 +306,7 @@ public class Hand {
      * @return string, containing all the cards that are in melds of the player
      *         hand in string format. it is stored as [rs] [rs] [rs rs rs]
      */
-    String getMeldsString()
+    public String getMeldsString()
     {
         // if the are no melds return ""
         if (mHandCards.size() == 1)
@@ -390,45 +367,130 @@ public class Hand {
         return true;
     }
 
-    // // see if a card can be added to atleast one of the meld or not
-    // std::pair<unsigned,std::string> CanAddToMeld( const Card a_cardToAdd )
-    // const;
+    /**
+     * Tries to see if the passed card can be added to the meld or not
+     * 
+     * @param aCardToAddd, object of Card class. It holds a Card object that is
+     *                         used to check if it can be added or not
+     * 
+     * @return a pair of < Integer, string >, < meldIdx, "" > if the card can be
+     *         added to a meld then the first of the pair is the index of meld
+     *         where it can be added. else < -1, "message string" >
+     */
+    public Pair<Integer, String> canAddToMeld(Card aCardToAdd)
+    {
+        if (!aCardToAdd.getCardType().equals(ENUM_CardType.CARDTYPE_NATURAL))
+        {
+            return new Pair<Integer, String>(-1, "Card is  not a natural card");
+        }
 
-    // // takes the card at index from actual hand and moves
-    // // it to a meld if possible
-    // std::pair<bool, std::string> AddNaturalCardToMeld( unsigned
-    // a_handCardIdx, unsigned a_meldIdx );
+        // looping over the meld to check if the card can be added to it
+        for (Vector<Card> meld : getMelds())
+        {
+            // checking if any of the meld's first card's rank is the same as
+            // the rank of the passed card
+            if (meld.firstElement().getRank().equals(aCardToAdd.getRank()))
+            {
+                return new Pair<Integer, String>(mHandCards.indexOf(meld), "");
+            }
+        }
 
-    // // takes the wildcard at index from actual hand and moves
-    // // it to a meld if possible
-    // std::pair<bool, std::string> AddWildCardToMeld( unsigned a_handCardIdx,
-    // unsigned a_meldIdx );
+        return new Pair<Integer, String>(-1, "Card can not be melded");
+    }
 
     /**
-     * To move the the red 3 at index from actual hand and to a new meld if
+     * takes the card at index from actual hand and moves // it to a meld if
      * possible
+     * 
+     * @param aHandCardIdx, a integer. It holds the index of the card in actual
+     *                          hand that is to be added to the meld
+     * @param aMeldIdx,     a integer. It holds the index of the meld where the
+     *                          card is to be added
+     * 
+     * @return a pair of < Integer, string >, < meldIdx, "" > if the card can be
+     *         added to a meld then the first of the pair is the index of meld
+     *         where it can be added. else < -1, "message string" >
+     */
+    public Pair<Boolean, String> addNaturalCardToMeld(Integer aHandCardIdx,
+            Integer aMeldIdx)
+    {
+        if (!mHandCards.firstElement().get(aHandCardIdx).getCardType()
+                .equals(ENUM_CardType.CARDTYPE_NATURAL))
+        {
+            return new Pair<Boolean, String>(false, "Card at index "
+                    + aHandCardIdx.toString() + " is not a natural card");
+        }
+
+        // trying to move the card to the meld
+        Pair<Boolean, String> returnVal = addCardToMeld(aHandCardIdx, aMeldIdx);
+
+        // if successfull
+        if (Boolean.TRUE.equals(returnVal.getFirst()))
+        {
+            // updating hasCanasta value
+            updateCanasta();
+        }
+
+        return returnVal;
+    }
+
+    /**
+     * To add wild card to the specified meld
      * 
      * @param aHandCardIdx, a integer. It holds the index of the the card at
      *                          actual hand that need to be moved
+     * @param aMeldIdx,     a integer. It holds the index of the meld to move
+     *                          the card to actual hand that need to be moved
      * 
-     * @return a pair of < Boolean, String >, < true, "" > if the card was moved
-     *         to a meld successfully. else < false, "message string" >
+     * @return a pair of < Boolean, String >. < true, "" > if a meld was
+     *         successfully made. else < false, message string >
      */
-    public Pair<Boolean, String> addRed3CardToMeld(Integer aHandCardIdx)
+    Pair<Boolean, String> addWildCardToMeld(Integer aHandCardIdx,
+            Integer aMeldIdx)
     {
-        if (mHandCards.firstElement().get(aHandCardIdx)
-                .getCardType() != Card.ENUM_CardType.CARDTYPE_RED_THREE)
+        if (!mHandCards.firstElement().get(aHandCardIdx).getCardType()
+                .equals(ENUM_CardType.CARDTYPE_WILDCARD))
         {
             return new Pair<Boolean, String>(false, "Card at index "
-                    + aHandCardIdx.toString() + " is not a red three card");
+                    + aHandCardIdx.toString() + " is not a wild card");
         }
 
-        // making a new meld at index 1 for the red 3
-        mHandCards.add(1, new Vector<Card>());
+        if (!mHandCards.get(aMeldIdx).firstElement().getCardType()
+                .equals(ENUM_CardType.CARDTYPE_NATURAL))
+        {
+            return new Pair<Boolean, String>(false,
+                    "Meld is a meld of red three");
+        }
 
-        // inserting the red 3 at index 1 of mHandCards as a new meld
-        // removing the red 3 from actual hand
-        return addCardToMeld(aHandCardIdx, 1);
+        // counting the number of wildcard
+        Integer wildCardCount = 0;
+
+        // looping over the meld to get the number of wild card in the meld
+        for (Card card : mHandCards.get(aMeldIdx))
+        {
+            if (card.getCardType().equals(ENUM_CardType.CARDTYPE_WILDCARD))
+            {
+                ++wildCardCount;
+            }
+        }
+
+        if (wildCardCount == 3)
+        {
+            return new Pair<Boolean, String>(false,
+                    "Cannot add to the meld, it already has 3 wildcards");
+        }
+
+        // trying to move the card to the meld
+        Pair<Boolean, String> returnVal = addCardToMeld(aHandCardIdx, aMeldIdx);
+
+        // chekcing if the meld was a success
+        if (Boolean.TRUE.equals(returnVal.getFirst()))
+        {
+            // updating hasCanasta value
+            updateCanasta();
+        }
+
+        return returnVal;
     }
 
     /**
@@ -588,37 +650,202 @@ public class Hand {
      * 
      * @return bolean, true if the actual hand is empty else false
      */
-    boolean isActualHandEmpty()
+    public boolean isActualHandEmpty()
     {
         return mHandCards.firstElement().isEmpty();
     }
 
     // checks if the meld has at least one wild card
-    // boolean MeldHasWildCard( unsigned a_meldIdx ) const;
+    /**
+     * takes the card at index from actual hand and moves // it to a meld if
+     * possible
+     * 
+     * @param aMeldIdx, a integer. It holds the index of the meld where the
+     *                      check is perforemed
+     * 
+     * @return a pair of < Integer, string >, < meldIdx, "" > if the card can be
+     *         added to a meld then the first of the pair is the index of meld
+     *         where it can be added. else < -1, "message string" >
+     */
+    public boolean meldHasWildCard(Integer aMeldIdx)
+    {
+        for (Card card : mHandCards.get(aMeldIdx))
+        {
+            if (card.getCardType().equals(ENUM_CardType.CARDTYPE_WILDCARD))
+            {
+                return true;
+            }
+        }
 
-    // // takes out wild card
-    // std::pair<bool,std::string> TakeOutWildCard( unsigned a_meldcardIdx,
-    // unsigned a_meldIdx );
+        return false;
+    }
 
-    // // removes the card at a_handCardIdx and returns it.
-    // Card Discard(unsigned a_handCardIdx);
+    /**
+     * takes out wild card
+     * 
+     * @param aMeldcardIdx, a integer. It holds the index of the card in meld
+     *                          that is to be taken out
+     * @param aMeldIdx,     a integer. It holds the index of the meld from where
+     *                          the card is to be taken out from
+     * 
+     * @return a pair of < Boolean, String >, < true, "" > if wild card was
+     *         taken out successfully . else < false, "message string" >
+     */
+    public Pair<Boolean, String> takeOutWildCard(Integer aMeldcardIdx,
+            Integer aMeldIdx)
+    {
+        // checking if the a_meldcardIdx is a wild card or not
+        if (!mHandCards.get(aMeldIdx).get(aMeldcardIdx).getCardType()
+                .equals(ENUM_CardType.CARDTYPE_WILDCARD))
+        {
+            return new Pair<Boolean, String>(false,
+                    "Can not take out the card. It is not a wild card");
+        }
 
-    // // prints out the hand
-    // void PrintHand() const;
+        // taking out the card and pushing it to actual hand and
+        // removing it form the meld
+        mHandCards.firstElement()
+                .add(mHandCards.get(aMeldIdx).get(aMeldcardIdx));
+        mHandCards.get(aMeldIdx)
+                .removeElement(mHandCards.get(aMeldIdx).get(aMeldcardIdx));
 
-    // // tallies up all the point
-    // const int TallyPoints( bool a_wentOut ) const;
+        // checking if the meld still has 3 cards in it, if not
+        // disolving the meld and moving the card to hand
+        //
+        // we only have to make sure that it has 3 cards in it as
+        // when we created the meld we know that it has atleast
+        // 2 natural cards in it.
+        StringBuilder message = new StringBuilder();
+        if (mHandCards.get(aMeldIdx).size() < 3)
+        {
+            // moving all the card to actual hand
+            for (Card card : mHandCards.get(aMeldIdx))
+            {
 
-    // // returns true if the passed meld idx is a valid index
-    // bool ValidateMeldIdx( unsigned a_meldIdx ) const { return a_meldIdx <
-    // m_handCard.size(); }
+                mHandCards.firstElement().add(card);
+                mHandCards.get(aMeldIdx).remove(card);
+            }
 
-    // // returns true if the passed a_CardIdx is a valid index of the passed
-    // meld
-    // bool ValidateCardIdx( unsigned a_meldIdx, unsigned a_meldcardIdx ) const
-    // {
-    // return a_meldcardIdx < m_handCard.at( a_meldIdx ).size();
-    // }
+            // removing the empty meld
+            mHandCards.removeElementAt(aMeldIdx);
+
+            message.append("Disolving the Meld of ");
+            message.append(mHandCards.firstElement().lastElement().getRank());
+        }
+
+        sortMeld(0, false);
+        return new Pair<Boolean, String>(true, message.toString());
+    }
+
+    /**
+     * Removes the card at a_handCardIdx and returns it. the index should be
+     * validated before hand
+     * 
+     * @param aHandCardIdx, a integer. It holds the index of the the card at
+     *                          actual hand that need to be removed
+     * 
+     * @return object of Card, holds the card that was discarded
+     */
+    public Card discard(Integer aHandCardIdx)
+    {
+        // creating a temp card
+        Card cardToRemove = mHandCards.firstElement().get(aHandCardIdx);
+        mHandCards.firstElement().removeElement(cardToRemove);
+
+        return cardToRemove;
+    }
+
+    /**
+     * To tally up the point of the hand
+     * 
+     * @param aWentOut, bool containing if the player went out or not
+     * 
+     * @return tallyed up point
+     */
+    Integer tallyPoints(Boolean aWentOut)
+    {
+        Integer totalPoint = 0;
+
+        // adding the point in the meld
+        for (Vector<Card> meld : getMelds())
+        {
+
+            // holds if the meld is natural or not
+            boolean isAllNaturalCard = true;
+
+            // adding up the points of each card in the meld
+            for (Card card : meld)
+            {
+                totalPoint += card.getPoint();
+
+                // checking if the card is not naturalcard
+                if (!card.getCardType().equals(ENUM_CardType.CARDTYPE_NATURAL))
+                {
+                    isAllNaturalCard = false;
+                }
+            }
+
+            // checking if this meld was a conasta
+            if (isCanasta(meld))
+            {
+                // chekcing if the meld was all natural cards
+                if (isAllNaturalCard)
+                {
+                    totalPoint += 500;
+                }
+                else
+                {
+                    totalPoint += 300;
+                }
+            }
+        }
+
+        for (Card card : getActualHand())
+        {
+            totalPoint -= card.getPoint();
+        }
+
+        // adding 100 if the player went out
+        if (Boolean.TRUE.equals(aWentOut))
+        {
+            totalPoint += 100;
+        }
+
+        return totalPoint;
+    }
+
+    /**
+     * Verifies that the passed meld index is valid or not
+     * 
+     * @param aMeldIdx, a integer. It holds the index of the meld that is to be
+     *                      validated
+     * 
+     * @return true if the passed meld idx is a valid meld index, else false
+     */
+    boolean validateMeldIdx(Integer aMeldIdx)
+    {
+        return aMeldIdx < mHandCards.size();
+    }
+
+    /**
+     * Verifies that the passed meld index is valid or not
+     * 
+     * @param aMeldCardIdx, a integer. It holds the index of the card that is to
+     *                          be validated
+     * @param aMeldIdx,     a integer. It holds the index of the meld that the
+     *                          card needes to be validated for
+     * 
+     * @return true if the passed aCardIdx is a valid index of the passed meld
+     */
+    boolean validateCardIdx(Integer aMeldIdx, Integer aMeldCardIdx)
+    {
+        if (aMeldIdx >= mHandCards.size())
+        {
+            return false;
+        }
+
+        return aMeldCardIdx < mHandCards.get(aMeldIdx).size();
+    }
 
     /**
      * Takes the card at index from actual hand and moves it to a meld if
@@ -664,6 +891,33 @@ public class Hand {
 
         return new Pair<Boolean, String>(false,
                 "Card can not be added to the meld");
+    }
+
+    /**
+     * To move the the red 3 at index from actual hand and to a new meld if
+     * possible
+     * 
+     * @param aHandCardIdx, a integer. It holds the index of the the card at
+     *                          actual hand that need to be moved
+     * 
+     * @return a pair of < Boolean, String >, < true, "" > if the card was moved
+     *         to a meld successfully. else < false, "message string" >
+     */
+    private Pair<Boolean, String> addRed3CardToMeld(Integer aHandCardIdx)
+    {
+        if (mHandCards.firstElement().get(aHandCardIdx)
+                .getCardType() != Card.ENUM_CardType.CARDTYPE_RED_THREE)
+        {
+            return new Pair<Boolean, String>(false, "Card at index "
+                    + aHandCardIdx.toString() + " is not a red three card");
+        }
+
+        // making a new meld at index 1 for the red 3
+        mHandCards.add(1, new Vector<Card>());
+
+        // inserting the red 3 at index 1 of mHandCards as a new meld
+        // removing the red 3 from actual hand
+        return addCardToMeld(aHandCardIdx, 1);
     }
 
     /**
@@ -721,10 +975,130 @@ public class Hand {
         return currCanasta == mHasCanasta;
     }
 
-    // checks if the meld is canasta -- i.e. has seven or more cards
+    /**
+     * checks if the meld is canasta -- i.e. has seven or more cards
+     * 
+     * @param none
+     * 
+     * @return true if the meld is a canasta
+     */
     private boolean isCanasta(Vector<Card> meld)
     {
         return (meld.size() >= 7);
     }
 
+    /**
+     * populates the melds from the string.
+     * 
+     * @param aMeldCardString, astring containing the rank and suit of cards in
+     *                             the m_stock. Each card is seperated by blank
+     *                             space and each meld is inside '[' and ']'
+     * 
+     * @return true if the meld was successfully created
+     */
+    private boolean pouplateMeldsFromString(String aMeldCardString)
+            throws ImproperMeldException
+    {
+        // populating hte string stream with meldCard
+        String[] meldSplited = aMeldCardString.split("\\]\\s*\\[|\\[|\\]");
+
+        // populating the mHandCards
+        for (String meld : meldSplited)
+        {
+            if (meld.isBlank())
+            {
+                continue;
+            }
+
+            String[] meldCardsSplited = meld.split(" +");
+            Vector<String> meldCardsNoBlank = new Vector<String>();
+
+            // removing all the blanks
+            for (String rankSuit : meldCardsSplited)
+            {
+                if (!rankSuit.isBlank())
+                {
+                    meldCardsNoBlank.add(rankSuit);
+                }
+            }
+
+            // Adding rest to the hand
+            for (String rankSuit : meldCardsNoBlank)
+            {
+                addCardToHand(new Card(rankSuit));
+            }
+
+            // chekcing if this meld was a red three then addCardToHand
+            // would automatically make a meld
+            if (meldCardsNoBlank.size() == 1 && meldCardsNoBlank.firstElement()
+                    .substring(0, 1).equals("3"))
+            {
+                continue;
+            }
+
+            Vector<Integer> cardIdxs = new Vector<Integer>();
+            // populating the cardIdx to make a meld out of it
+            for (Integer idx = 0; idx < meldCardsNoBlank.size(); ++idx)
+            {
+                cardIdxs.add(idx);
+            }
+
+            // making a meld
+            Pair<Boolean, String> meldReturn = makeMeld(cardIdxs);
+            if (Boolean.FALSE.equals(meldReturn.getFirst()))
+            {
+                throw new ImproperMeldException(meldReturn.getSecond());
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * populates the melds from the string.
+     * 
+     * @param aHandCardsString, a string containing the rank and suit of cards.
+     *                              Each card is seperated by blank space.
+     * 
+     * @return true if the actual hand was successfully created
+     */
+    private boolean pouplateActualHandFromString(String aHandCardsString)
+            throws ImproperMeldException
+    {
+        // spliting the passed hand cards
+        String[] handCardsSplited = aHandCardsString.split(" +");
+
+        // populating the vector at 0th index of mHandCards
+        // as the 0th vector is the place where the hand card are placed
+
+        // populating the mHandCards
+        for (String rankSuit : handCardsSplited)
+        {
+            if (!rankSuit.isBlank())
+            {
+                addCardToHand(new Card(rankSuit));
+            }
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) throws ImproperMeldException
+    {
+        try
+        {
+            Hand testHand = new Hand(" AS AD 4S   J1 J2 3S",
+                    "[4H 4C 4S 4D 4H 4C J1] [JH JC JH JC JH JC JH]  [3D] [3H]  ");
+            Integer expecetedPoint = ((((5 * 6) + 50) + 300) + ((10 * 7) + 500)
+                    + 100 + 100 - ((20 * 2) + 5 + (50 * 2)) + 5) + 100;
+
+            System.out.println(expecetedPoint);
+            System.out.println(testHand.tallyPoints(true));
+
+        }
+        catch (ImproperMeldException e)
+        {
+            throw new ImproperMeldException(e.getMessage());
+        }
+    }
 }

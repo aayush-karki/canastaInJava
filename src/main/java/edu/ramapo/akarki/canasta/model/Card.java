@@ -46,11 +46,11 @@ public class Card implements Comparable<Card> {
 
 	// mPoint the score of each indivisual card
 	// Card Points
-	// 4, 5, 6, 7. Black 3 5
-	// 8, 9, 10, J, Q, K 10
-	// 2, A 20
-	// Joker 50
-	// Red 3 100
+	// 4, 5, 6, 7. Black 3 -> 5
+	// 8, 9, 10, J, Q, K -> 10
+	// 2, A -> 20
+	// Joker -> 50
+	// Red 3 -> 100
 	int mPoint;
 
 	// mCardType holds the card type.
@@ -165,6 +165,19 @@ public class Card implements Comparable<Card> {
 	}
 
 	/**
+	 * toString funciton
+	 * 
+	 * @param none
+	 * 
+	 * @return rankSuit
+	 */
+	@Override
+	public String toString()
+	{
+		return this.mRank + this.mSuit;
+	}
+
+	/**
 	 * Getter functions to get rank
 	 * 
 	 * @param none
@@ -227,12 +240,6 @@ public class Card implements Comparable<Card> {
 	final String getRankSuit()
 	{
 		return mRank + mSuit;
-	}
-
-	@Override
-	public String toString()
-	{
-		return this.mRank + this.mSuit;
 	}
 
 	/**
