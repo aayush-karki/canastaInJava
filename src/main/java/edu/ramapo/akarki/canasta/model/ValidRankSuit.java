@@ -3,12 +3,12 @@ package edu.ramapo.akarki.canasta.model;
 final class ValidRankSuit {
 	// p_rankList lists all the rank of card in a standard deck
 	// of card and last J for Joker
-	static final String P_RANK_LIST = "23456789XJQKAJ";
+	static final String S_RANK_LIST = "23456789XJQKAJ";
 
 	// p_suitList lists all the suit of card in a standard deck
 	// of card and 1 and 2 for Joker
 	// S = spade, C = club, H = heart, and D = diamond
-	static final String P_SUIT_LIST = "SCHD12";
+	static final String S_SUIT_LIST = "SCHD12";
 
 	/**
 	 * Contructor for ValidRankSuit Class.
@@ -27,7 +27,7 @@ final class ValidRankSuit {
 	 * 
 	 * @return boolean value, true if a_rank is valid
 	 */
-	static boolean isRankValid(String aRank)
+	public static boolean isRankValid(String aRank)
 	{
 		if (aRank.length() != 1)
 		{
@@ -35,7 +35,7 @@ final class ValidRankSuit {
 					"Arugment length does not equal to 1");
 		}
 
-		return P_RANK_LIST.indexOf(aRank) != -1;
+		return S_RANK_LIST.indexOf(aRank) != -1;
 	}
 
 	/**
@@ -45,7 +45,7 @@ final class ValidRankSuit {
 	 * 
 	 * @return boolean value, true if a_suit is valid
 	 */
-	static boolean isSuitValid(String aSuit)
+	public static boolean isSuitValid(String aSuit)
 	{
 		if (aSuit.length() != 1)
 		{
@@ -53,7 +53,7 @@ final class ValidRankSuit {
 					"Arugment length does not equal to 1");
 		}
 
-		return P_SUIT_LIST.indexOf(aSuit) != -1;
+		return S_SUIT_LIST.indexOf(aSuit) != -1;
 	}
 
 	/**
@@ -65,7 +65,7 @@ final class ValidRankSuit {
 	 * 
 	 * @return boolean value, true if a_suit is valid
 	 */
-	static boolean isRankSuitValid(String aRankSuit)
+	public static boolean isRankSuitValid(String aRankSuit)
 	{
 		if (aRankSuit.length() != 2)
 		{

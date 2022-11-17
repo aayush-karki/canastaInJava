@@ -278,23 +278,7 @@ public class Hand {
      */
     public String getActualHandString()
     {
-        // if the are no card in the hand return ""
-        if (mHandCards.firstElement().isEmpty())
-        {
-            return "";
-        }
-
-        // creating actual hand
-        StringBuilder actualHandStr = new StringBuilder();
-        for (Card card : mHandCards.firstElement())
-        {
-            actualHandStr.append(card.toString() + " ");
-        }
-
-        // removing the last " "
-        actualHandStr.deleteCharAt(actualHandStr.length() - 1);
-
-        return actualHandStr.toString();
+        return Card.getAllCardInPrintedFormat(mHandCards.firstElement());
     }
 
     /**
@@ -322,15 +306,7 @@ public class Hand {
         {
 
             meldListStr.append("[");
-
-            for (Card card : melds)
-            {
-
-                meldListStr.append(card.toString() + " ");
-            }
-
-            // removing the last " "
-            meldListStr.deleteCharAt(meldListStr.length() - 1);
+            meldListStr.append(Card.getAllCardInPrintedFormat(melds));
             meldListStr.append("] ");
         }
 
@@ -1081,24 +1057,5 @@ public class Hand {
         }
 
         return true;
-    }
-
-    public static void main(String[] args) throws ImproperMeldException
-    {
-        try
-        {
-            Hand testHand = new Hand(" AS AD 4S   J1 J2 3S",
-                    "[4H 4C 4S 4D 4H 4C J1] [JH JC JH JC JH JC JH]  [3D] [3H]  ");
-            Integer expecetedPoint = ((((5 * 6) + 50) + 300) + ((10 * 7) + 500)
-                    + 100 + 100 - ((20 * 2) + 5 + (50 * 2)) + 5) + 100;
-
-            System.out.println(expecetedPoint);
-            System.out.println(testHand.tallyPoints(true));
-
-        }
-        catch (ImproperMeldException e)
-        {
-            throw new ImproperMeldException(e.getMessage());
-        }
     }
 }

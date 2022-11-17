@@ -4,7 +4,7 @@
 
 -   Downloaded Android Studio and read documentation for it ( 2 hours ).
 
-###### Total: 2 hours
+###### Total: 2 hours 00 minutes.
 
 ## Oct 28, 2022:
 
@@ -14,7 +14,7 @@
 
 -   Scraped my project and then stated to follow online guide from vs code official website. The problem still presisted so searched differnet sites for a solution. The solution after experimenting was to use run jave instead of run code ( 2 hour ).
 
-###### Total: 5 hours
+###### Total: 5 hours 00 minutes.
 
 ## Nov 01, 2022:
 
@@ -26,7 +26,7 @@
 
 -   Researched and moved a tests from the main method to the test class and extended the tests( 1 hour and 30 minutes ).
 
-###### Total: 5 hours.
+###### Total: 5 hours 00 minutes.
 
 ## Nov 06, 2022:
 
@@ -35,7 +35,7 @@
 
 -   Started and completed to create card Class ( 2 hours ).
 
-###### Total: 4 hours.
+###### Total: 4 hours 00 minutes.
 
 ## Nov 08, 2022:
 
@@ -61,7 +61,7 @@
 
 -   Redid the compareTo funciton and researched and override the equals funciton ( 1 hour ).
 
-###### Total: 4 hours.
+###### Total: 4 hours 00 minutes.
 
 ## Nov 11, 2022:
 
@@ -71,7 +71,7 @@
 
 -   Continued working on the hand class. In the process of transating the constructor for the calss, made the function that it depended on like sortMeld(), addCardToHand(), addRed3ToMeld) ( 2 hours ).
 
-###### Total: 4 hours.
+###### Total: 4 hours 00 minutes.
 
 ## Nov 12, 2022:
 
@@ -92,3 +92,41 @@
 -   Researched about how to deep copy vector and added copy constructor for card Class and tested them so that the getter funciton would return back deep copy data( 45 minutes )
 
 ###### Total: 10 hours 30 minutes.
+
+## Nov 13, 2022:
+
+-   Continued working on the hand class. refactored the constructor when paramerets arepassed and made a copy constructor and then tested them ( 45 minutes ) .
+
+-   made canAddToMeld(), addNaturalCardToMeld(), addWildCardToMeld() and meldHasWildCard and then tested them ( 2 hours ) .
+
+-   made takeOutWildCard(), discard(), tallyPoints(),validateCardIdx(), validateMeldIdx and then tested them ( 2 hours ) .
+
+###### Total: 4 hours 45 minutes.
+
+## Nov 14, 2022:
+
+-   Started the deck Class, and setup all the member funciton declaration with JavaDoc ( 1 hour 30 minutes ).
+
+-   Started the testDeck Class and setup all the member function and with JavaDoc ( 1 hour ).
+
+###### Total: 2 hours 30 minutes.
+
+## Nov 15, 2022:
+
+-   Started the Message and testMessage Class, and setup all the member funciton declaration with JavaDoc ( 1 hour ).
+
+-   Started the Player class and setup all the member funciton declaration with JavaDoc ( 2 hour ).
+
+-   Started the testPlayer class and setup all the member funciton declaration with JavaDoc ( 1 hour ).
+
+###### Total: 4 hours 00 minutes.
+
+## Nov 16, 2022:
+
+-   Started populated the Deck and testDeck Class and tested it ( 2 hour ).
+
+-   Finished opulated the Deck and testDeck Class and tested it ( 1 hour 15 minutes ).
+
+-   Populated the Message and testMessage Class and tested it ( 1 hour ).
+
+###### Total: 4 hours 15 minutes.

@@ -9,7 +9,8 @@ import java.util.Vector;
 import org.junit.Test;
 
 public class HandTest {
-	Hand testhandNoParam = new Hand();
+	private Hand testhandNoParam = new Hand();
+	static final String improperException = "Exception should not be thrown here";
 
 	/**
 	 * Test the defualt Hand Constructor
@@ -110,8 +111,7 @@ public class HandTest {
 		}
 		catch (ImproperMeldException e)
 		{
-			assertEquals("Exception should not be thrown here",
-					"Exception was thrown!!");
+			assertEquals("Exception was thrown!!", improperException);
 		}
 	}
 
@@ -147,22 +147,19 @@ public class HandTest {
 		}
 		catch (ImproperMeldException e)
 		{
-			assertEquals("Exception should not be thrown here",
-					"Exception was thrown!!");
+			assertEquals("Exception was thrown!!", improperException);
 		}
 	}
 
 	/**
-	 * Test the Hand's getHasCanasta()
+	 * Test the Hand's toString()
 	 * 
 	 * @param none
 	 * 
 	 * @return none
-	 * 
-	 * @throws ImproperMeldException
 	 */
 	@Test
-	public void testToString() throws ImproperMeldException
+	public void testToString()
 	{
 		assertEquals("Hand: \nMelds: ", testhandNoParam.toString());
 
@@ -178,7 +175,7 @@ public class HandTest {
 		}
 		catch (ImproperMeldException e)
 		{
-			throw new ImproperMeldException(e.getMessage());
+			assertEquals("Exception was thrown!!", improperException);
 		}
 	}
 
@@ -220,11 +217,9 @@ public class HandTest {
 	 * @param none
 	 * 
 	 * @return none
-	 * 
-	 * @throws ImproperMeldException
 	 */
 	@Test
-	public void testGetMelds() throws ImproperMeldException
+	public void testGetMelds()
 	{
 		try
 		{
@@ -269,7 +264,7 @@ public class HandTest {
 		}
 		catch (ImproperMeldException e)
 		{
-			throw new ImproperMeldException(e.getMessage());
+			assertEquals("Exception was thrown!!", improperException);
 		}
 	}
 
@@ -386,11 +381,9 @@ public class HandTest {
 	 * @param none
 	 * 
 	 * @return none
-	 * 
-	 * @throws ImproperMeldException
 	 */
 	@Test
-	public void testGetMeldsString() throws ImproperMeldException
+	public void testGetMeldsString()
 	{
 		testhandNoParam.addCardToHand(new Card("XD"));
 		testhandNoParam.addCardToHand(new Card("5C"));
@@ -411,7 +404,7 @@ public class HandTest {
 		}
 		catch (ImproperMeldException e)
 		{
-			throw new ImproperMeldException(e.getMessage());
+			assertEquals("Exception was thrown!!", improperException);
 		}
 	}
 
@@ -421,11 +414,9 @@ public class HandTest {
 	 * @param none
 	 * 
 	 * @return none
-	 * 
-	 * @throws ImproperMeldException
 	 */
 	@Test
-	public void testCanAddToMeld() throws ImproperMeldException
+	public void testCanAddToMeld()
 	{
 		try
 		{
@@ -450,7 +441,7 @@ public class HandTest {
 		}
 		catch (ImproperMeldException e)
 		{
-			throw new ImproperMeldException(e.getMessage());
+			assertEquals("Exception was thrown!!", improperException);
 		}
 	}
 
@@ -479,11 +470,9 @@ public class HandTest {
 	 * @param none
 	 * 
 	 * @return none
-	 * 
-	 * @throws ImproperMeldException
 	 */
 	@Test
-	public void testAddNaturalCardToMeld() throws ImproperMeldException
+	public void testAddNaturalCardToMeld()
 	{
 		try
 		{
@@ -505,7 +494,7 @@ public class HandTest {
 		}
 		catch (ImproperMeldException e)
 		{
-			throw new ImproperMeldException(e.getMessage());
+			assertEquals("Exception was thrown!!", improperException);
 		}
 
 	}
@@ -516,11 +505,9 @@ public class HandTest {
 	 * @param none
 	 * 
 	 * @return none
-	 * 
-	 * @throws ImproperMeldException
 	 */
 	@Test
-	public void testAddWildCardToMeld() throws ImproperMeldException
+	public void testAddWildCardToMeld()
 	{
 		try
 		{
@@ -546,7 +533,7 @@ public class HandTest {
 		}
 		catch (ImproperMeldException e)
 		{
-			throw new ImproperMeldException(e.getMessage());
+			assertEquals("Exception was thrown!!", improperException);
 		}
 	}
 
@@ -670,11 +657,9 @@ public class HandTest {
 	 * @param none
 	 * 
 	 * @return none
-	 * 
-	 * @throws ImproperMeldException
 	 */
 	@Test
-	public void testMeldHasWildCard() throws ImproperMeldException
+	public void testMeldHasWildCard()
 	{
 		try
 		{
@@ -689,7 +674,7 @@ public class HandTest {
 		}
 		catch (ImproperMeldException e)
 		{
-			throw new ImproperMeldException(e.getMessage());
+			assertEquals("Exception was thrown!!", improperException);
 		}
 	}
 
@@ -699,11 +684,9 @@ public class HandTest {
 	 * @param none
 	 * 
 	 * @return none
-	 * 
-	 * @throws ImproperMeldException
 	 */
 	@Test
-	public void testTakeOutWildCard() throws ImproperMeldException
+	public void testTakeOutWildCard()
 	{
 		try
 		{
@@ -723,7 +706,7 @@ public class HandTest {
 		}
 		catch (ImproperMeldException e)
 		{
-			throw new ImproperMeldException(e.getMessage());
+			assertEquals("Exception was thrown!!", improperException);
 		}
 	}
 
@@ -754,11 +737,9 @@ public class HandTest {
 	 * @param none
 	 * 
 	 * @return none
-	 * 
-	 * @throws ImproperMeldException
 	 */
 	@Test
-	public void testTallyPoints() throws ImproperMeldException
+	public void testTallyPoints()
 	{
 		Integer expecetedPoint = 0;
 		assertEquals(expecetedPoint, testhandNoParam.tallyPoints(false));
@@ -776,7 +757,7 @@ public class HandTest {
 		}
 		catch (ImproperMeldException e)
 		{
-			throw new ImproperMeldException(e.getMessage());
+			assertEquals("Exception was thrown!!", improperException);
 		}
 	}
 
@@ -786,11 +767,9 @@ public class HandTest {
 	 * @param none
 	 * 
 	 * @return none
-	 * 
-	 * @throws ImproperMeldException
 	 */
 	@Test
-	public void testValidateMeldIdx() throws ImproperMeldException
+	public void testValidateMeldIdx()
 	{
 		assertEquals(true, testhandNoParam.validateMeldIdx(0));
 		assertEquals(false, testhandNoParam.validateMeldIdx(1));
@@ -807,7 +786,7 @@ public class HandTest {
 		}
 		catch (ImproperMeldException e)
 		{
-			throw new ImproperMeldException(e.getMessage());
+			assertEquals("Exception was thrown!!", improperException);
 		}
 	}
 
@@ -817,11 +796,9 @@ public class HandTest {
 	 * @param none
 	 * 
 	 * @return none
-	 * 
-	 * @throws ImproperMeldException
 	 */
 	@Test
-	public void testValidateCardIdx() throws ImproperMeldException
+	public void testValidateCardIdx()
 	{
 		assertEquals(false, testhandNoParam.validateCardIdx(0, 0));
 		testhandNoParam.addCardToHand(new Card("XD"));
@@ -850,7 +827,7 @@ public class HandTest {
 		}
 		catch (ImproperMeldException e)
 		{
-			throw new ImproperMeldException(e.getMessage());
+			assertEquals("Exception was thrown!!", improperException);
 		}
 	}
 }

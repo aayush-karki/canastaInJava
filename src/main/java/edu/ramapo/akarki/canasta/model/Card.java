@@ -1,5 +1,7 @@
 package edu.ramapo.akarki.canasta.model;
 
+import java.util.Vector;
+
 public class Card implements Comparable<Card> {
 
 	//
@@ -83,6 +85,9 @@ public class Card implements Comparable<Card> {
 	 */
 	Card(String aRank, String aSuit)
 	{
+		aRank = aRank.toUpperCase();
+		aSuit = aSuit.toUpperCase();
+
 		// checking if a_rnak and Suit is valid or not
 		if (!(ValidRankSuit.isRankValid(aRank))
 				|| !(ValidRankSuit.isSuitValid(aSuit)))
@@ -388,5 +393,35 @@ public class Card implements Comparable<Card> {
 		{
 			return (mRank.compareTo(aOtherCard.mRank) < 0 ? -1 : 1);
 		}
+	}
+
+	/**
+	 * Static method to get the vector of card in string format
+	 * 
+	 * @param aCardVec vector of card object, it holds card list that needs to
+	 *                     be converted to string format
+	 * 
+	 * @return string, containing all the cards that are in the passed vector in
+	 *         string format. it is stored as "rs rs..."
+	 */
+	public static String getAllCardInPrintedFormat(Vector<Card> aCardVec)
+	{
+		// if the are no card in the hand return ""
+		if (aCardVec.isEmpty())
+		{
+			return "";
+		}
+
+		// creating actual hand
+		StringBuilder actualHandStr = new StringBuilder();
+		for (Card card : aCardVec)
+		{
+			actualHandStr.append(card.toString() + " ");
+		}
+
+		// removing the last " "
+		actualHandStr.deleteCharAt(actualHandStr.length() - 1);
+
+		return actualHandStr.toString();
 	}
 }

@@ -4,13 +4,15 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Vector;
+
 public class CardTest {
-	Card mTestNaturalCard = new Card("A", "C");
-	Card mTest10Card = new Card("X", "H");
-	Card mTestRedThreeCard = new Card("3", "D");
-	Card mTestJokerCard = new Card("J", "1");
-	Card mTestBlackThreeCard = new Card("3", "S");
-	Card mTestWildCardCard = new Card("2", "H");
+	private Card mTestNaturalCard = new Card("A", "C");
+	private Card mTest10Card = new Card("X", "H");
+	private Card mTestRedThreeCard = new Card("3", "D");
+	private Card mTestJokerCard = new Card("J", "1");
+	private Card mTestBlackThreeCard = new Card("3", "S");
+	private Card mTestWildCardCard = new Card("2", "H");
 
 	/**
 	 * Unit test the Card Constructor for illegal arguments
@@ -38,6 +40,24 @@ public class CardTest {
 		Card copy = new Card(mTestNaturalCard);
 
 		assertEquals(copy, mTestNaturalCard);
+	}
+
+	/**
+	 * Test the Card's toString()
+	 * 
+	 * @param none
+	 * 
+	 * @return none
+	 */
+	@Test
+	public void testToString()
+	{
+		assertEquals("AC", mTestNaturalCard.toString());
+		assertEquals("XH", mTest10Card.toString());
+		assertEquals("3D", mTestRedThreeCard.toString());
+		assertEquals("J1", mTestJokerCard.toString());
+		assertEquals("3S", mTestBlackThreeCard.toString());
+		assertEquals("2H", mTestWildCardCard.toString());
 	}
 
 	/**
@@ -196,5 +216,34 @@ public class CardTest {
 		assertEquals(-1, mTestJokerCard.compareTo(mTest10Card));
 		assertEquals(0, mTestJokerCard.compareTo(mTestJokerCard));
 		assertEquals(1, mTest10Card.compareTo(mTestJokerCard));
+	}
+
+	/**
+	 * Test the Card's getAllCardInPrintedFormat()
+	 * 
+	 * @param none
+	 * 
+	 * @return none
+	 */
+	@Test
+	public void testGetAllCardInPrintedFormat()
+	{
+		// testing empty list
+		assertEquals("", Card.getAllCardInPrintedFormat(new Vector<Card>()));
+
+		Vector<Card> cardList = new Vector<Card>();
+
+		// testing list with one element
+		cardList.add(new Card("3D"));
+		assertEquals("3D", Card.getAllCardInPrintedFormat(cardList));
+
+		// testing list with many elements
+		for (String cardRankSuit : new String("4H 4C 4S 4D 4H 4C").split(" "))
+		{
+			cardList.add(new Card(cardRankSuit));
+		}
+
+		assertEquals("3D 4H 4C 4S 4D 4H 4C",
+				Card.getAllCardInPrintedFormat(cardList));
 	}
 }
