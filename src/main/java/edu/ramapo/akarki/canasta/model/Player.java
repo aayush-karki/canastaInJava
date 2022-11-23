@@ -263,8 +263,8 @@ public class Player {
 	 * @param aDiscardPile     vector of cards that holds all the cards that are
 	 *                             currently in discard pile
 	 * 
-	 * @return pair of <integer , Vector<Integer>>. The first interger indicates
-	 *         where this was--that is beforeTurnStartLogic == 1,
+	 * @return pair of < integer , Vector< Integer > >. The first interger
+	 *         indicates where this was--that is beforeTurnStartLogic == 1,
 	 *         turnStartLlogic == 2, or afterTurnStartLogic == 3 or 10 for
 	 *         invalid input. the second is vector of unsinged integer whose
 	 *         first element is always the sub menu index or 10 for invalid
@@ -295,7 +295,7 @@ public class Player {
 	 * 
 	 * @param nones
 	 * 
-	 * @return Pair of <Integer ssss, Vector<Integer>>. The first interger
+	 * @return Pair of < Integer ssss, Vector< Integer > >. The first interger
 	 *         indicates this was--that is beforeTurnStartLogic so it is always
 	 *         1. the second is vector of unsinged integer of size 1 and the the
 	 *         vector's first element is the sub menu index.
@@ -304,13 +304,14 @@ public class Player {
 	{
 
 		// now Player have the following choices:
-		// 1) Save the game -> enter 1
-		// 2) Take a turn -> enter 2
-		// 3) Quit the game and go to main menu -> enter 3
+		// 1) Save the game - > enter 1
+		// 2) Take a turn - > enter 2
+		// 3) Quit the game and go to main menu - > enter 3
 		System.out.println("Menu:");
-		System.out.println("\t1) Save the game -> enter 1");
-		System.out.println("\t2) Take a turn -> enter 2");
-		System.out.println("\t3) Quit the game and go to main menu -> enter 3");
+		System.out.println("\t1) Save the game - > enter 1");
+		System.out.println("\t2) Take a turn - > enter 2");
+		System.out
+				.println("\t3) Quit the game and go to main menu - > enter 3");
 		System.out.println();
 
 		System.out.println("Enter a corresponding number: ");
@@ -342,10 +343,10 @@ public class Player {
 	 * 
 	 * @param aDiscardPile, vector of cards that contains the discard pile
 	 * 
-	 * @return Pair of <Integer , Vector<Integer>>. The first interger indicates
-	 *         this was--that is TurnStartconstrol so it is always 2. the second
-	 *         is vector of unsinged integer of size 1 and the the vector's
-	 *         first element is the sub menu index. Algorithm:
+	 * @return Pair of < Integer , Vector< Integer > >. The first interger
+	 *         indicates this was--that is TurnStartconstrol so it is always 2.
+	 *         the second is vector of unsinged integer of size 1 and the the
+	 *         vector's first element is the sub menu index. Algorithm:
 	 */
 	public Pair<Integer, Vector<Integer>> turnStartControl(
 			final Vector<Card> aDiscardPile)
@@ -353,18 +354,18 @@ public class Player {
 		// (2) Take a turn was pressed
 
 		// at the start of the turn, player have 5 choices:
-		// 1) ask for help -> enter 1
-		// 2) draw a card from deck -> enter 2
-		// 3) pick up the discard pile -> enter 3
-		// 4) show discard pile -> enter 4
-		// 5) show stock card (for debugging) -> enter 5
+		// 1) ask for help - > enter 1
+		// 2) draw a card from deck - > enter 2
+		// 3) pick up the discard pile - > enter 3
+		// 4) show discard pile - > enter 4
+		// 5) show stock card (for debugging) - > enter 5
 
 		System.out.println("Taking a turn:");
-		System.out.println("\t1) Ask for help -> enter 1");
-		System.out.println("\t2) Draw a card from deck -> enter 2");
-		System.out.println("\t3) Pick up the discard pile -> enter 3");
-		System.out.println("\t4) Show discard pile -> enter 4");
-		System.out.println("\t5) Show stock card (for debugging) -> enter 5");
+		System.out.println("\t1) Ask for help - > enter 1");
+		System.out.println("\t2) Draw a card from deck - > enter 2");
+		System.out.println("\t3) Pick up the discard pile - > enter 3");
+		System.out.println("\t4) Show discard pile - > enter 4");
+		System.out.println("\t5) Show stock card (for debugging) - > enter 5");
 		System.out.println();
 
 		System.out.println("Enter a corresponding number: ");
@@ -396,11 +397,11 @@ public class Player {
 	 * 
 	 * @param aDiscardPile, vector of cards that contains the discard pile
 	 * 
-	 * @return Pair of <Integer , Vector<Integer>>. The first interger indicates
-	 *         this was--that is TurnStartconstrol so it is always 3. the second
-	 *         is vector of unsinged integer the the vector's first element is
-	 *         the sub menu index. rest of the element depends on the submenu
-	 *         chosen
+	 * @return Pair of < Integer , Vector< Integer > >. The first interger
+	 *         indicates this was--that is TurnStartconstrol so it is always 3.
+	 *         the second is vector of unsinged integer the the vector's first
+	 *         element is the sub menu index. rest of the element depends on the
+	 *         submenu chosen
 	 */
 	public Pair<Integer, Vector<Integer>> turnContinueControl(
 			final Vector<Vector<Card>> aOtherPlayerMeld,
@@ -411,30 +412,32 @@ public class Player {
 
 		// now player have 8 choices until they discard or go out:
 		// else it is not the start of the round so they have 5 choices
-		// 1) Ask for help -> enter 1
-		// 2) Add a card in hand to meld -> enter 2 <actualHandCardIdx>
-		// <meldIdx>
-		// 3) Discard a card from hand -> enter 3 <actualHandCardIdx>
-		// 4) Go out -> enter 4
-		// 5) Make a new meld -> enter 5 <actualHandCardIdx> <actualHandCardIdx>
-		// <actualHandCardIdx> ...
-		// 6) Show discard pile -> enter 6
-		// 7) Show stock card (for debugging) -> enter 7
-		// 8) Take out wild card From meld -> enter 8 <meldCardIdx> <meldIdx>
+		// 1) Ask for help - > enter 1
+		// 2) Add a card in hand to meld - > enter 2 < actualHandCardIdx >
+		// < meldIdx >
+		// 3) Discard a card from hand - > enter 3 < actualHandCardIdx >
+		// 4) Go out - > enter 4
+		// 5) Make a new meld - > enter 5 < actualHandCardIdx > <
+		// actualHandCardIdx >
+		// < actualHandCardIdx > ...
+		// 6) Show discard pile - > enter 6
+		// 7) Show stock card (for debugging) - > enter 7
+		// 8) Take out wild card From meld - > enter 8 < meldCardIdx > < meldIdx
+		// >
 
 		System.out.println("Taking a turn:");
-		System.out.println("\t1) Ask for help -> enter 1");
+		System.out.println("\t1) Ask for help - > enter 1");
 		System.out.println(
-				"\t2) Add a card in hand to meld -> enter 2 < actualHandCardIdx > < meldIdx>");
+				"\t2) Add a card in hand to meld - > enter 2 <  actualHandCardIdx  > <  meldIdx >");
 		System.out.println(
-				"\t3) Discard a card from hand -> enter 3 < actualHandCardIdx >");
-		System.out.println("\t4) Go out -> enter 4");
+				"\t3) Discard a card from hand - > enter 3 <  actualHandCardIdx  >");
+		System.out.println("\t4) Go out - > enter 4");
 		System.out.println(
-				"\t5) Make a new meld -> enter 5 < actualHandCardIdx > <actualHandCardIdx> <actualHandCardIdx> ...");
-		System.out.println("\t6) Show discard pile -> enter 6");
-		System.out.println("\t7) Show stock card( for debugging ) -> enter 7");
+				"\t5) Make a new meld - > enter 5 <  actualHandCardIdx  > < actualHandCardIdx > < actualHandCardIdx > ...");
+		System.out.println("\t6) Show discard pile - > enter 6");
+		System.out.println("\t7) Show stock card( for debugging ) - > enter 7");
 		System.out.println(
-				"\t8) Take out wild card From meld -> enter 8 < meldCardIdx > <meldIdx>");
+				"\t8) Take out wild card From meld - > enter 8 <  meldCardIdx  > < meldIdx >");
 		System.out.println();
 
 		System.out.println("Enter a corresponding number: ");
@@ -468,7 +471,7 @@ public class Player {
 		Vector<Integer> validUserInputVec = new Vector<Integer>(
 				extractedUserInputStr.length);
 
-		// validating 1) -> a first valid user input
+		// validating 1) - > a first valid user input
 		// is 1, or 2, or 3, or 4, or 5, or 6, or 7, or 8
 		int vadiatedNum = validateNumber(extractedUserInputStr[0], 1, 8);
 
@@ -483,7 +486,7 @@ public class Player {
 
 		boolean errorFound = false;
 
-		// validating 2) -> then if it is 1, or 4, or 6, or 7
+		// validating 2) - > then if it is 1, or 4, or 6, or 7
 		// there should not be any other number after it
 		if ("1467".contains(extractedUserInputStr[0])
 				&& extractedUserInputStr.length == 1)
@@ -491,7 +494,7 @@ public class Player {
 			// valid input
 			return new Pair<Integer, Vector<Integer>>(3, validUserInputVec);
 		}
-		// validating 3) -> if it is 3 then it should have one number after
+		// validating 3) - > if it is 3 then it should have one number after
 		// it that represents the card in actual hand
 		else if (validUserInputVec.firstElement().equals(3)
 				&& extractedUserInputStr.length == 2)
@@ -512,7 +515,7 @@ public class Player {
 			}
 		}
 
-		// validating 4) -> if it is 2 then it should have 2 number after
+		// validating 4) - > if it is 2 then it should have 2 number after
 		// it, these 2 number represents the card idx
 		// in actual hand and meld idx in the hand
 		else if (validUserInputVec.firstElement().equals(2)
@@ -546,7 +549,7 @@ public class Player {
 			}
 		}
 
-		// validating 5) -> if it is 5 then it should have atlease 3 number
+		// validating 5) - > if it is 5 then it should have atlease 3 number
 		// after it, these number represents the card idx in actual hands
 		else if (validUserInputVec.firstElement().equals(5)
 				&& extractedUserInputStr.length >= 4)
@@ -568,7 +571,7 @@ public class Player {
 			}
 		}
 
-		// validating 6) -> if it is 2 then it should have 2 number after
+		// validating 6) - > if it is 2 then it should have 2 number after
 		// it, these 2 number represents the card idx
 		// in meld and meld idx in the hand
 		else if (validUserInputVec.firstElement().equals(8)
@@ -945,8 +948,8 @@ public class Player {
 		}
 
 		// checking if the number is out of range or not
-		if (numToValidate >= aInclusiveLowerBound
-				&& numToValidate <= aInclusiveUpperBound)
+		if (numToValidate  >= aInclusiveLowerBound
+				&& numToValidate < = aInclusiveUpperBound)
 		{
 			return numToValidate;
 		}

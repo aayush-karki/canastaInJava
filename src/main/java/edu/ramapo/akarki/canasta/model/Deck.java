@@ -57,6 +57,8 @@ public class Deck {
 	 * 
 	 * @param aStock aStock, a string containing the rank and suit of cards in
 	 *                   the m_stock. Each card is seperated by blank space
+	 * 
+	 * @return none
 	 */
 	public Deck(String aStock)
 	{

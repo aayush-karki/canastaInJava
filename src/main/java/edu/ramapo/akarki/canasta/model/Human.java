@@ -31,7 +31,7 @@ public class Human extends Player {
 	 * 
 	 * @throws ImproperMeldException
 	 */
-	Human(Integer aTotalScore, String aHandCards, String aMeldCards)
+	public Human(Integer aTotalScore, String aHandCards, String aMeldCards)
 			throws ImproperMeldException
 	{
 		super(aTotalScore, aHandCards, aMeldCards);
@@ -46,7 +46,7 @@ public class Human extends Player {
 	 * 
 	 * @return none
 	 */
-	Human(final Human aOther)
+	public Human(final Human aOther)
 	{
 		super(aOther);
 	}
