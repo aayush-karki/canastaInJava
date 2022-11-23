@@ -19,6 +19,62 @@ public class Pair<K, V> {
     }
 
     /**
+     * Overriding the hashcode method of the Object Class
+     * 
+     * @param none
+     * 
+     * @return int, the hascode for the object
+     */
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int hash = 3;
+
+        hash = prime * hash
+                + ((this.mFirst == null) ? 0 : this.mFirst.hashCode());
+        hash = prime * hash
+                + ((this.mSecond == null) ? 0 : this.mSecond.hashCode());
+        return hash;
+    }
+
+    /**
+     * to check if this pair is equal to the passed pair
+     * 
+     * @param o object of Object class, it holds the object to check that it is
+     *              equal to this pair object or not.
+     * 
+     * @return boolean value. true if this pair is equal to the other pair.
+     *         false other wise.
+     */
+    @Override
+    public boolean equals(Object o)
+    {
+        // checking for self reference
+        if (this == o)
+        {
+            return true;
+        }
+
+        // checking for null pointer passing
+        if (o == null)
+        {
+            return false;
+        }
+
+        // checking if the passed Object is a instance of this class or not
+        if (getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        final Pair<K, V> otherCard = (Pair<K, V>) o;
+
+        return this.mFirst.equals(otherCard.mFirst)
+                && this.mSecond.equals(otherCard.mSecond);
+    }
+
+    /**
      * Gets the first item of the pair
      * 
      * @param none

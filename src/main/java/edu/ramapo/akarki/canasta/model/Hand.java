@@ -631,6 +631,20 @@ public class Hand {
         return mHandCards.firstElement().isEmpty();
     }
 
+    /**
+     * checks if the actual hand has a wild card
+     * 
+     * @param none
+     * 
+     * @return true if the actual hand has a wildcard; else false
+     */
+    public boolean actualHandHasWildCard()
+    {
+        return !mHandCards.firstElement().isEmpty()
+                && mHandCards.firstElement().firstElement().getCardType()
+                        .equals(ENUM_CardType.CARDTYPE_WILDCARD);
+    }
+
     // checks if the meld has at least one wild card
     /**
      * takes the card at index from actual hand and moves // it to a meld if
@@ -738,7 +752,7 @@ public class Hand {
      * 
      * @return tallyed up point
      */
-    Integer tallyPoints(Boolean aWentOut)
+    public Integer tallyPoints(Boolean aWentOut)
     {
         Integer totalPoint = 0;
 
@@ -798,7 +812,7 @@ public class Hand {
      * 
      * @return true if the passed meld idx is a valid meld index, else false
      */
-    boolean validateMeldIdx(Integer aMeldIdx)
+    public boolean validateMeldIdx(Integer aMeldIdx)
     {
         return aMeldIdx < mHandCards.size();
     }
@@ -813,7 +827,7 @@ public class Hand {
      * 
      * @return true if the passed aCardIdx is a valid index of the passed meld
      */
-    boolean validateCardIdx(Integer aMeldIdx, Integer aMeldCardIdx)
+    public boolean validateCardIdx(Integer aMeldIdx, Integer aMeldCardIdx)
     {
         if (aMeldIdx >= mHandCards.size())
         {

@@ -67,7 +67,7 @@ public class Card implements Comparable<Card> {
 	 * 
 	 * @return none
 	 */
-	Card()
+	public Card()
 	{
 		mRank = "A";
 		mSuit = "C";
@@ -83,7 +83,7 @@ public class Card implements Comparable<Card> {
 	 * 
 	 * @return none
 	 */
-	Card(String aRank, String aSuit)
+	public Card(String aRank, String aSuit)
 	{
 		aRank = aRank.toUpperCase();
 		aSuit = aSuit.toUpperCase();
@@ -152,7 +152,7 @@ public class Card implements Comparable<Card> {
 	 * 
 	 * @return none
 	 */
-	Card(String aRankSuit)
+	public Card(String aRankSuit)
 	{
 		this(aRankSuit.substring(0, 1), aRankSuit.substring(1));
 	}
@@ -180,71 +180,6 @@ public class Card implements Comparable<Card> {
 	public String toString()
 	{
 		return this.mRank + this.mSuit;
-	}
-
-	/**
-	 * Getter functions to get rank
-	 * 
-	 * @param none
-	 * 
-	 * @return aRankSuit, a const string. It holds the rank as the 0th character
-	 *         and suit as the 1th character
-	 */
-	final String getRank()
-	{
-		return mRank;
-	}
-
-	/**
-	 * Getter functions to get suit
-	 * 
-	 * @param none
-	 * 
-	 * @return aRankSuit, a const string. It holds the rank as the 0th character
-	 *         and suit as the 1th character
-	 */
-	final String getSuit()
-	{
-		return mSuit;
-	}
-
-	/**
-	 * Getter functions to get point
-	 * 
-	 * @param none
-	 * 
-	 * @return aRankSuit, a const string. It holds the rank as the 0th character
-	 *         and suit as the 1th character
-	 */
-	final int getPoint()
-	{
-		return mPoint;
-	}
-
-	/**
-	 * Getter functions to get card type
-	 * 
-	 * @param none
-	 * 
-	 * @return aRankSuit, a const string. It holds the rank as the 0th character
-	 *         and suit as the 1th character
-	 */
-	final ENUM_CardType getCardType()
-	{
-		return mCardType;
-	}
-
-	/**
-	 * Getter function to get the rank and suit as string
-	 * 
-	 * @param none
-	 * 
-	 * @return aRankSuit, a const string. It holds the rank as the 0th character
-	 *         and suit as the 1th character
-	 */
-	final String getRankSuit()
-	{
-		return mRank + mSuit;
 	}
 
 	/**
@@ -393,6 +328,71 @@ public class Card implements Comparable<Card> {
 		{
 			return (mRank.compareTo(aOtherCard.mRank) < 0 ? -1 : 1);
 		}
+	}
+
+	/**
+	 * Getter functions to get rank
+	 * 
+	 * @param none
+	 * 
+	 * @return aRankSuit, a const string. It holds the rank as the 0th character
+	 *         and suit as the 1th character
+	 */
+	public String getRank()
+	{
+		return mRank;
+	}
+
+	/**
+	 * Getter functions to get suit
+	 * 
+	 * @param none
+	 * 
+	 * @return aRankSuit, a const string. It holds the rank as the 0th character
+	 *         and suit as the 1th character
+	 */
+	public String getSuit()
+	{
+		return mSuit;
+	}
+
+	/**
+	 * Getter functions to get point
+	 * 
+	 * @param none
+	 * 
+	 * @return aRankSuit, a const string. It holds the rank as the 0th character
+	 *         and suit as the 1th character
+	 */
+	public int getPoint()
+	{
+		return mPoint;
+	}
+
+	/**
+	 * Getter functions to get card type
+	 * 
+	 * @param none
+	 * 
+	 * @return aRankSuit, a const string. It holds the rank as the 0th character
+	 *         and suit as the 1th character
+	 */
+	public ENUM_CardType getCardType()
+	{
+		return mCardType;
+	}
+
+	/**
+	 * Getter function to get the rank and suit as string
+	 * 
+	 * @param none
+	 * 
+	 * @return aRankSuit, a const string. It holds the rank as the 0th character
+	 *         and suit as the 1th character
+	 */
+	public String getRankSuit()
+	{
+		return mRank + mSuit;
 	}
 
 	/**

@@ -125,8 +125,42 @@
 
 -   Started populated the Deck and testDeck Class and tested it ( 2 hour ).
 
--   Finished opulated the Deck and testDeck Class and tested it ( 1 hour 15 minutes ).
+-   Finished populated the Deck and testDeck Class and tested it ( 1 hour 15 minutes ).
 
 -   Populated the Message and testMessage Class and tested it ( 1 hour ).
 
 ###### Total: 4 hours 15 minutes.
+
+## Nov 20, 2022:
+
+-   Started populated the Player with its constructor,constructor with paramaeters and copy constructor and tested it ( 2 hour ).
+
+-   filled most of the single-line funcitons and tested them ( 2 hours )
+
+-   created playerTurnController, beforeTurnStartControl(), and validateNumber() ( 1 hour ).
+
+-   researched how to test user input and then tested the validateNumber function ( 45 minutes).
+
+-   started testing beforeTurStartControl() but the test would not pass even though the values in the debugger were the same ( 2 hour ).
+
+###### Total: 7 hours 45 minutes.
+
+## Nov 21, 2022:
+
+-   Implemented the equals and hash funciton for pair class. This results in solving the previous bug ( 45 minutes ).
+
+-   created turnStartControl and tested it ( 1 hour ).
+
+-   created turnContinueControl and refacted the code multiple times to make it easier to follow ( 2 hour )
+
+###### Total: 3 hours 45 minutes.
+
+## Nov 22, 2022:
+
+-   started testing turnContinueControl() and fixed multiple translation bugs ( 2 hour ).
+
+-   completed the Player Class ( 2 hour ).
+
+-   completed the PlayerTest Class while fixing the bugs ( 2 hour ).
+
+###### Total: 6 hours 00 minutes.

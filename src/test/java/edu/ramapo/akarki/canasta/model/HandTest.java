@@ -3,9 +3,14 @@ package edu.ramapo.akarki.canasta.model;
 import edu.ramapo.akarki.canasta.exceptions.ImproperMeldException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Vector;
+
+import javax.swing.plaf.multi.MultiPanelUI;
+
 import org.junit.Test;
 
 public class HandTest {
@@ -22,8 +27,8 @@ public class HandTest {
 	@Test
 	public void testHandConstructorNoParam()
 	{
-		assertEquals(false, testhandNoParam.getHasCanasta());
-		assertEquals(true, testhandNoParam.getHand().firstElement().isEmpty());
+		assertFalse(testhandNoParam.getHasCanasta());
+		assertTrue(testhandNoParam.getHand().firstElement().isEmpty());
 		assertEquals(1, testhandNoParam.getHand().size());
 	}
 
@@ -106,7 +111,7 @@ public class HandTest {
 			expectedVec.get(6).add(new Card("JD"));
 			expectedVec.get(6).add(new Card("JC"));
 
-			assertEquals(true, mTestHandWithParam.getHasCanasta());
+			assertTrue(mTestHandWithParam.getHasCanasta());
 			assertEquals(expectedVec, mTestHandWithParam.getHand());
 		}
 		catch (ImproperMeldException e)
@@ -139,7 +144,7 @@ public class HandTest {
 
 			// checking if the copy is deep copy or not
 			copyHand.addWildCardToMeld(0, 3);
-			assertEquals(true, copyHand.getHasCanasta());
+			assertTrue(copyHand.getHasCanasta());
 			assertNotEquals(copyHand.getHasCanasta(),
 					mTestHandWithParam.getHasCanasta());
 
@@ -189,7 +194,7 @@ public class HandTest {
 	@Test
 	public void testGetHasCanasta()
 	{
-		assertEquals(false, testhandNoParam.getHasCanasta());
+		assertFalse(testhandNoParam.getHasCanasta());
 	}
 
 	/**
@@ -480,16 +485,16 @@ public class HandTest {
 					"[4H 4C 4S 4D 4H 4C 2D] [JH JC JS JD J1]  [3D] [3H]  ");
 
 			// testing for non natual card--wildcard
-			assertEquals(false, testHand.addNaturalCardToMeld(0, 1).getFirst());
+			assertFalse(testHand.addNaturalCardToMeld(0, 1).getFirst());
 
 			// testing for non natual card--black 3
-			assertEquals(false, testHand.addNaturalCardToMeld(2, 1).getFirst());
+			assertFalse(testHand.addNaturalCardToMeld(2, 1).getFirst());
 
 			// testing for card that can not be melded
-			assertEquals(false, testHand.addNaturalCardToMeld(4, 1).getFirst());
+			assertFalse(testHand.addNaturalCardToMeld(4, 1).getFirst());
 
 			// testing for card that can be melded
-			assertEquals(true, testHand.addNaturalCardToMeld(3, 3).getFirst());
+			assertTrue(testHand.addNaturalCardToMeld(3, 3).getFirst());
 
 		}
 		catch (ImproperMeldException e)
@@ -515,10 +520,10 @@ public class HandTest {
 					"[4H 4C 4S 4D 4H 4C 2D] [JH JC JS JD J1 J2 J1]  [3D] [3H]  ");
 
 			// testing for non wildcard--natural card
-			assertEquals(false, testHand.addWildCardToMeld(4, 3).getFirst());
+			assertFalse(testHand.addWildCardToMeld(4, 3).getFirst());
 
 			// testing for non wildcard--black 3
-			assertEquals(false, testHand.addWildCardToMeld(2, 3).getFirst());
+			assertFalse(testHand.addWildCardToMeld(2, 3).getFirst());
 
 			// testing for adding to meld of red 3
 			assertEquals("Meld is a meld of red three",
@@ -529,7 +534,7 @@ public class HandTest {
 					testHand.addWildCardToMeld(0, 4).getSecond());
 
 			// testing for card that can be melded
-			assertEquals(true, testHand.addWildCardToMeld(0, 3).getFirst());
+			assertTrue(testHand.addWildCardToMeld(0, 3).getFirst());
 		}
 		catch (ImproperMeldException e)
 		{
@@ -639,16 +644,38 @@ public class HandTest {
 	@Test
 	public void testIsActualHandEmpty()
 	{
-		assertEquals(true, testhandNoParam.isActualHandEmpty());
+		assertTrue(testhandNoParam.isActualHandEmpty());
 
 		testhandNoParam.addCardToHand(new Card("3D"));
-		assertEquals(true, testhandNoParam.isActualHandEmpty());
+		assertTrue(testhandNoParam.isActualHandEmpty());
 
 		testhandNoParam.addCardToHand(new Card("XD"));
 		testhandNoParam.addCardToHand(new Card("5C"));
 		testhandNoParam.addCardToHand(new Card("3D"));
 
-		assertEquals(false, testhandNoParam.isActualHandEmpty());
+		assertFalse(testhandNoParam.isActualHandEmpty());
+	}
+
+	/**
+	 * Test the Hand's actualHandHasWildCard()
+	 * 
+	 * @param none
+	 * 
+	 * @return none
+	 */
+	@Test
+	public void testActualHandHasWildCard()
+	{
+		// testing for empty hand
+		assertFalse(testhandNoParam.actualHandHasWildCard());
+
+		// testing for wildcard when there is no wildcard in actual hand
+		testhandNoParam.addCardToHand(new Card("AC"));
+		assertFalse(testhandNoParam.actualHandHasWildCard());
+
+		// testing for wildcard when there is a wildcard in actual hand
+		testhandNoParam.addCardToHand(new Card("J1"));
+		assertTrue(testhandNoParam.actualHandHasWildCard());
 	}
 
 	/**
@@ -667,10 +694,10 @@ public class HandTest {
 					"[4H 4C 4S 4D 4H 4C] [JH JC JS JD J1 J2 J1]  [3D] [3H]  ");
 
 			// testing for false
-			assertEquals(false, testHand.meldHasWildCard(3));
+			assertFalse(testHand.meldHasWildCard(3));
 
 			// testing for true
-			assertEquals(true, testHand.meldHasWildCard(4));
+			assertTrue(testHand.meldHasWildCard(4));
 		}
 		catch (ImproperMeldException e)
 		{
@@ -771,18 +798,18 @@ public class HandTest {
 	@Test
 	public void testValidateMeldIdx()
 	{
-		assertEquals(true, testhandNoParam.validateMeldIdx(0));
-		assertEquals(false, testhandNoParam.validateMeldIdx(1));
+		assertTrue(testhandNoParam.validateMeldIdx(0));
+		assertFalse(testhandNoParam.validateMeldIdx(1));
 
 		try
 		{
 			Hand testHand = new Hand(" AS AD 4S   J1 J2 3S",
 					"[4H 4C 4S 4D 4H 4C J1] [JH JC JH JC JH JC JH]  [3D] [3H]  ");
 
-			assertEquals(true, testHand.validateMeldIdx(0));
-			assertEquals(true, testHand.validateMeldIdx(3));
-			assertEquals(true, testHand.validateMeldIdx(4));
-			assertEquals(false, testHand.validateMeldIdx(10));
+			assertTrue(testHand.validateMeldIdx(0));
+			assertTrue(testHand.validateMeldIdx(3));
+			assertTrue(testHand.validateMeldIdx(4));
+			assertFalse(testHand.validateMeldIdx(10));
 		}
 		catch (ImproperMeldException e)
 		{
@@ -800,13 +827,13 @@ public class HandTest {
 	@Test
 	public void testValidateCardIdx()
 	{
-		assertEquals(false, testhandNoParam.validateCardIdx(0, 0));
+		assertFalse(testhandNoParam.validateCardIdx(0, 0));
 		testhandNoParam.addCardToHand(new Card("XD"));
-		assertEquals(true, testhandNoParam.validateCardIdx(0, 0));
-		assertEquals(false, testhandNoParam.validateCardIdx(0, 1));
+		assertTrue(testhandNoParam.validateCardIdx(0, 0));
+		assertFalse(testhandNoParam.validateCardIdx(0, 1));
 
 		// out of rang meldIdx
-		assertEquals(false, testhandNoParam.validateCardIdx(1, 0));
+		assertFalse(testhandNoParam.validateCardIdx(1, 0));
 
 		try
 		{
@@ -814,16 +841,16 @@ public class HandTest {
 					"[4H 4C 4S 4D 4H 4C J1] [JH JC JH JC JH JC JH]  [3D] [3H]  ");
 
 			// acutal hand
-			assertEquals(true, testHand.validateCardIdx(0, 0));
+			assertTrue(testHand.validateCardIdx(0, 0));
 
 			// red 3s
-			assertEquals(true, testHand.validateCardIdx(1, 0));
-			assertEquals(true, testHand.validateCardIdx(2, 0));
-			assertEquals(false, testHand.validateCardIdx(2, 1));
+			assertTrue(testHand.validateCardIdx(1, 0));
+			assertTrue(testHand.validateCardIdx(2, 0));
+			assertFalse(testHand.validateCardIdx(2, 1));
 
 			// noraml melds
-			assertEquals(true, testHand.validateCardIdx(3, 5));
-			assertEquals(false, testHand.validateCardIdx(3, 10));
+			assertTrue(testHand.validateCardIdx(3, 5));
+			assertFalse(testHand.validateCardIdx(3, 10));
 		}
 		catch (ImproperMeldException e)
 		{

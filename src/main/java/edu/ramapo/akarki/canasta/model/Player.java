@@ -1,6 +1,11 @@
 package edu.ramapo.akarki.canasta.model;
 
+import java.util.Arrays;
+import java.util.Scanner;
 import java.util.Vector;
+
+import edu.ramapo.akarki.canasta.exceptions.ImproperMeldException;
+import edu.ramapo.akarki.canasta.model.Card.ENUM_CardType;
 
 public class Player {
 	// cards of the player
@@ -20,6 +25,10 @@ public class Player {
 	// holds the value of it the player went out
 	protected boolean mWentOut;
 
+	// pair error code
+	protected final Pair<Integer, Vector<Integer>> mErrorPairCode = new Pair<Integer, Vector<Integer>>(
+			10, new Vector<Integer>(Arrays.asList(10)));
+
 	/**
 	 * default constructor
 	 * 
@@ -27,7 +36,7 @@ public class Player {
 	 * 
 	 * @return none
 	 */
-	Player()
+	public Player()
 	{
 		mPlayerHand = new Hand();
 		mTotalPoints = 0;
@@ -39,7 +48,7 @@ public class Player {
 
 	/**
 	 * construct a Player object and to populate its member variables
-	 * m_playerHand is populated using the passed parameter.
+	 * mPlayerHand is populated using the passed parameter.
 	 * 
 	 * @param a_totalScore, a unsinged integer containing the player's total
 	 *                          score.
@@ -50,10 +59,25 @@ public class Player {
 	 *                          space and each meld is inside '[' and ']'
 	 * 
 	 * @return none
+	 * 
+	 * @throws ImproperMeldException
 	 */
-	Player(Integer aTotalScore, String aHandCards, String aMeldCards)
+	public Player(Integer aTotalScore, String aHandCards, String aMeldCards)
+			throws ImproperMeldException
 	{
+		mTotalPoints = aTotalScore;
+		mShowBeforeTurnMenu = true;
+		mIsStartOfTurn = true;
+		mWentOut = false;
 
+		try
+		{
+			mPlayerHand = new Hand(aHandCards, aMeldCards);
+		}
+		catch (ImproperMeldException e)
+		{
+			throw new ImproperMeldException(e.getMessage());
+		}
 	}
 
 	/**
@@ -65,8 +89,23 @@ public class Player {
 	 * 
 	 * @return none
 	 */
-	Player(Player aOtherPlayer)
-	{}
+	public Player(final Player aOtherPlayer)
+	{
+		mTotalPoints = aOtherPlayer.mTotalPoints;
+		mShowBeforeTurnMenu = aOtherPlayer.mShowBeforeTurnMenu;
+		mIsStartOfTurn = aOtherPlayer.mIsStartOfTurn;
+		mWentOut = aOtherPlayer.mWentOut;
+
+		try
+		{
+			mPlayerHand = new Hand(aOtherPlayer.getActualHandString(),
+					aOtherPlayer.getMeldsString());
+		}
+		catch (ImproperMeldException e)
+		{
+			System.out.println("this is never gonna get an error");
+		}
+	}
 
 	/**
 	 * toString funciton
@@ -78,7 +117,13 @@ public class Player {
 	@Override
 	public String toString()
 	{
-		return mPlayerHand.toString();
+		StringBuilder playerString = new StringBuilder("Score: ");
+
+		playerString.append(mTotalPoints);
+		playerString.append("\n");
+		playerString.append(mPlayerHand.toString());
+
+		return playerString.toString();
 	}
 
 	/**
@@ -88,7 +133,7 @@ public class Player {
 	 * 
 	 * @return total point of the player
 	 */
-	int getTotalPoint()
+	public int getTotalPoint()
 	{
 		return mTotalPoints;
 	}
@@ -100,7 +145,7 @@ public class Player {
 	 * 
 	 * @return Vector of Cards object that holds player's actual hand
 	 */
-	Vector<Card> getActualHand()
+	public Vector<Card> getActualHand()
 	{
 		return mPlayerHand.getActualHand();
 	}
@@ -112,7 +157,7 @@ public class Player {
 	 * 
 	 * @return Vector of Vector Cards object that holds player's melds
 	 */
-	Vector<Vector<Card>> getMelds()
+	public Vector<Vector<Card>> getMelds()
 	{
 		return mPlayerHand.getMelds();
 	}
@@ -124,7 +169,7 @@ public class Player {
 	 * 
 	 * @return String that holds player's actual hand in printed format
 	 */
-	String getActualHandString()
+	public String getActualHandString()
 	{
 		return mPlayerHand.getActualHandString();
 	}
@@ -136,7 +181,7 @@ public class Player {
 	 * 
 	 * @return String that holds player's meld in printed format
 	 */
-	String getMeldsString()
+	public String getMeldsString()
 	{
 		return mPlayerHand.getMeldsString();
 	}
@@ -148,7 +193,7 @@ public class Player {
 	 * 
 	 * @return players went_out status
 	 */
-	boolean getPlayerWentOutStatus()
+	public boolean getPlayerWentOutStatus()
 	{
 		return mWentOut;
 	}
@@ -160,7 +205,7 @@ public class Player {
 	 * 
 	 * @return players before_turn_flag status
 	 */
-	boolean getTurnStartFlag()
+	public boolean getTurnStartFlag()
 	{
 		return mIsStartOfTurn;
 	}
@@ -174,7 +219,7 @@ public class Player {
 	 * @return Vector of Vector of Card where each Vector of Cards have the same
 	 *         ranks. All the ranks are in ascending order.
 	 */
-	Vector<Vector<Card>> getDividedAcualHandCardList()
+	public Vector<Vector<Card>> getDividedAcualHandCardList()
 	{
 		return mPlayerHand.getDividedAcualHandCardList();
 	}
@@ -186,7 +231,7 @@ public class Player {
 	 * 
 	 * @return true to indicate success
 	 */
-	boolean setPlayerWentOutStatus(boolean aPlayerWentOut)
+	public boolean setPlayerWentOutStatus(boolean aPlayerWentOut)
 	{
 		mWentOut = aPlayerWentOut;
 		return true;
@@ -199,7 +244,7 @@ public class Player {
 	 * 
 	 * @return true to indicate success
 	 */
-	boolean setPlayerBeforeTurnMenuFlag(boolean aShowBeforeTurnMenu)
+	public boolean setPlayerBeforeTurnMenuFlag(boolean aShowBeforeTurnMenu)
 	{
 		mShowBeforeTurnMenu = aShowBeforeTurnMenu;
 		return true;
@@ -212,7 +257,7 @@ public class Player {
 	 * 
 	 * @return true to indicate success
 	 */
-	boolean setTurnStartFlag(boolean aShowTurnStartMenu)
+	public boolean setTurnStartFlag(boolean aShowTurnStartMenu)
 	{
 		mIsStartOfTurn = aShowTurnStartMenu;
 		return true;
@@ -226,35 +271,75 @@ public class Player {
 	 * @param aDiscardPile     vector of cards that holds all the cards that are
 	 *                             currently in discard pile
 	 * 
-	 * @return pair of <integer , std::vector<unsigned>>. The first interger
-	 *         indicates where this was--that is beforeTurnStartLogic == 1,
+	 * @return pair of <integer , Vector<Integer>>. The first interger indicates
+	 *         where this was--that is beforeTurnStartLogic == 1,
 	 *         turnStartLlogic == 2, or afterTurnStartLogic == 3 or 10 for
 	 *         invalid input. the second is vector of unsinged integer whose
 	 *         first element is always the sub menu index or 10 for invalid
 	 *         input and every thing after that is what the it sub menus's
 	 *         funciton needs
 	 */
-	Pair<Integer, Vector<Integer>> playerTurnController(
-			Vector<Vector<Card>> aOtherPlayerMeld, Vector<Card> aDiscardPile)
+	public Pair<Integer, Vector<Integer>> playerTurnController(
+			final Vector<Vector<Card>> aOtherPlayerMeld,
+			final Vector<Card> aDiscardPile)
 	{
-		return new Pair<Integer, Vector<Integer>>(0, new Vector<Integer>());
+		// before turn menu with function to save, take a turn
+		if (mShowBeforeTurnMenu)
+		{
+			return beforeTurnStartControl();
+		}
+		else if (mIsStartOfTurn)
+		{
+			return turnStartControl(aDiscardPile);
+		}
+
+		return turnContinueControl(aOtherPlayerMeld, aDiscardPile);
 	}
 
 	/**
-	 * Contains the controller for before a turn starts and asks the user to
+	 * ` Contains the controller for before a turn starts and asks the user to
 	 * chose from "Save the game", "Take a turn" , or "Quit the game and go to
 	 * main menu"
 	 * 
 	 * @param nones
 	 * 
-	 * @return Pair of <Integer , Vector<Integer>>. The first interger indicates
-	 *         this was--that is beforeTurnStartLogic so it is always 1. the
-	 *         second is vector of unsinged integer of size 1 and the the
+	 * @return Pair of <Integer ssss, Vector<Integer>>. The first interger
+	 *         indicates this was--that is beforeTurnStartLogic so it is always
+	 *         1. the second is vector of unsinged integer of size 1 and the the
 	 *         vector's first element is the sub menu index.
 	 */
-	Pair<Integer, Vector<Integer>> beforeTurnStartControl()
+	public Pair<Integer, Vector<Integer>> beforeTurnStartControl()
 	{
-		return new Pair<Integer, Vector<Integer>>(0, new Vector<Integer>());
+
+		// now Player have the following choices:
+		// 1) Save the game -> enter 1
+		// 2) Take a turn -> enter 2
+		// 3) Quit the game and go to main menu -> enter 3
+		System.out.println("Menu:");
+		System.out.println("\t1) Save the game -> enter 1");
+		System.out.println("\t2) Take a turn -> enter 2");
+		System.out.println("\t3) Quit the game and go to main menu -> enter 3");
+		System.out.println();
+
+		System.out.println("Enter a corresponding number: ");
+
+		// used to get the userInput
+		// object to read from console
+		Scanner cin = new Scanner(System.in);
+		String userInputStr = cin.nextLine();
+		cin.close();
+
+		// validaing the userInput
+		// a valid user input is 1, or 2, or 3
+		int vadiatedNum = validateNumber(userInputStr, 1, 3);
+		if (vadiatedNum < 0)
+		{
+			Message.addMessage("Invalid Input!!");
+			return mErrorPairCode;
+		}
+
+		return new Pair<Integer, Vector<Integer>>(1,
+				new Vector<Integer>(Arrays.asList(vadiatedNum)));
 	}
 
 	/**
@@ -270,10 +355,45 @@ public class Player {
 	 *         is vector of unsinged integer of size 1 and the the vector's
 	 *         first element is the sub menu index. Algorithm:
 	 */
-	Pair<Integer, Vector<Integer>> turnStartControl(Vector<Card> aDiscardPile)
+	public Pair<Integer, Vector<Integer>> turnStartControl(
+			final Vector<Card> aDiscardPile)
 	{
+		// (2) Take a turn was pressed
 
-		return new Pair<Integer, Vector<Integer>>(0, new Vector<Integer>());
+		// at the start of the turn, player have 5 choices:
+		// 1) ask for help -> enter 1
+		// 2) draw a card from deck -> enter 2
+		// 3) pick up the discard pile -> enter 3
+		// 4) show discard pile -> enter 4
+		// 5) show stock card (for debugging) -> enter 5
+
+		System.out.println("Taking a turn:");
+		System.out.println("\t1) Ask for help -> enter 1");
+		System.out.println("\t2) Draw a card from deck -> enter 2");
+		System.out.println("\t3) Pick up the discard pile -> enter 3");
+		System.out.println("\t4) Show discard pile -> enter 4");
+		System.out.println("\t5) Show stock card (for debugging) -> enter 5");
+		System.out.println();
+
+		System.out.println("Enter a corresponding number: ");
+
+		// used to get the userInput
+		// object to read from console
+		Scanner cin = new Scanner(System.in);
+		String userInputStr = cin.nextLine();
+		cin.close();
+
+		// validaing the userInput
+		// a valid user input is 1, or 2, or 3, or 4, or 5
+		int vadiatedNum = validateNumber(userInputStr, 1, 5);
+		if (vadiatedNum < 0)
+		{
+			Message.addMessage("Invalid Input!!");
+			return mErrorPairCode;
+		}
+
+		return new Pair<Integer, Vector<Integer>>(2,
+				new Vector<Integer>(Arrays.asList(vadiatedNum)));
 	}
 
 	/**
@@ -290,10 +410,225 @@ public class Player {
 	 *         the sub menu index. rest of the element depends on the submenu
 	 *         chosen
 	 */
-	Pair<Integer, Vector<Integer>> turnContinueControl(
-			Vector<Vector<Card>> aOtherPlayerMeld, Vector<Card> aDiscardPile)
+	public Pair<Integer, Vector<Integer>> turnContinueControl(
+			final Vector<Vector<Card>> aOtherPlayerMeld,
+			final Vector<Card> aDiscardPile)
 	{
-		return new Pair<Integer, Vector<Integer>>(0, new Vector<Integer>());
+
+		// player has drawns a card or picked up the discard pile
+
+		// now player have 8 choices until they discard or go out:
+		// else it is not the start of the round so they have 5 choices
+		// 1) Ask for help -> enter 1
+		// 2) Add a card in hand to meld -> enter 2 <actualHandCardIdx>
+		// <meldIdx>
+		// 3) Discard a card from hand -> enter 3 <actualHandCardIdx>
+		// 4) Go out -> enter 4
+		// 5) Make a new meld -> enter 5 <actualHandCardIdx> <actualHandCardIdx>
+		// <actualHandCardIdx> ...
+		// 6) Show discard pile -> enter 6
+		// 7) Show stock card (for debugging) -> enter 7
+		// 8) Take out wild card From meld -> enter 8 <meldCardIdx> <meldIdx>
+
+		System.out.println("Taking a turn:");
+		System.out.println("\t1) Ask for help -> enter 1");
+		System.out.println(
+				"\t2) Add a card in hand to meld -> enter 2 < actualHandCardIdx > < meldIdx>");
+		System.out.println(
+				"\t3) Discard a card from hand -> enter 3 < actualHandCardIdx >");
+		System.out.println("\t4) Go out -> enter 4");
+		System.out.println(
+				"\t5) Make a new meld -> enter 5 < actualHandCardIdx > <actualHandCardIdx> <actualHandCardIdx> ...");
+		System.out.println("\t6) Show discard pile -> enter 6");
+		System.out.println("\t7) Show stock card( for debugging ) -> enter 7");
+		System.out.println(
+				"\t8) Take out wild card From meld -> enter 8 < meldCardIdx > <meldIdx>");
+		System.out.println();
+
+		System.out.println("Enter a corresponding number: ");
+
+		// used to get the userInput
+		// object to read from console
+		Scanner cin = new Scanner(System.in);
+		String userInputStr = cin.nextLine();
+		cin.close();
+
+		// extracting user input
+		String[] extractedUserInputStr = userInputStr.split("\\s+");
+
+		// validaing the userInput
+		// 1) a first valid user input is 1, or 2, or 3, or 4,
+		// or 5, or 6, or 7, or 8
+		// 2) then if it is 1, or 4, or 6, or 7 there should
+		// not be any other number after it
+		// 3) if it is 3 then it should have one number after
+		// it that represents the card in actual hand
+		// 4) if it is 2 then it should have 2 number after
+		// it, these 2 number represents the card idx
+		// in actual hand and meld idx in the hand
+		// 5) if it is 5 then it should have atlease 3 number
+		// after it, these number represents the
+		// card idx in actual hands
+		// 6) if it is 8 then it should have 2 number after
+		// it, these 2 number represents the card idx
+		// in meld and the and meld idx in the hand
+		// holds the parsed user input if they are valid
+		Vector<Integer> validUserInputVec = new Vector<Integer>(
+				extractedUserInputStr.length);
+
+		// validating 1) -> a first valid user input
+		// is 1, or 2, or 3, or 4, or 5, or 6, or 7, or 8
+		int vadiatedNum = validateNumber(extractedUserInputStr[0], 1, 8);
+
+		if (vadiatedNum < 0)
+		{
+			Message.addMessage("Invalid Input!!");
+			return mErrorPairCode;
+		}
+
+		// valid initial number
+		validUserInputVec.add(vadiatedNum);
+
+		boolean errorFound = false;
+
+		// validating 2) -> then if it is 1, or 4, or 6, or 7
+		// there should not be any other number after it
+		if ("1467".contains(extractedUserInputStr[0])
+				&& extractedUserInputStr.length == 1)
+		{
+			// valid input
+			return new Pair<Integer, Vector<Integer>>(3, validUserInputVec);
+		}
+		// validating 3) -> if it is 3 then it should have one number after
+		// it that represents the card in actual hand
+		else if (validUserInputVec.firstElement().equals(3)
+				&& extractedUserInputStr.length == 2)
+		{
+			// the max idx that it can be is the actual hand size - 1
+			vadiatedNum = validateNumber(
+					extractedUserInputStr[extractedUserInputStr.length - 1], 0,
+					mPlayerHand.getActualHand().size() - 1);
+
+			if (vadiatedNum < 0)
+			{
+				Message.addMessage("Invalid actual hand index!!");
+				errorFound = true;
+			}
+			else
+			{
+				validUserInputVec.add(vadiatedNum);
+			}
+		}
+
+		// validating 4) -> if it is 2 then it should have 2 number after
+		// it, these 2 number represents the card idx
+		// in actual hand and meld idx in the hand
+		else if (validUserInputVec.firstElement().equals(2)
+				&& extractedUserInputStr.length == 3)
+		{
+			// validating the actualCardIdx which is the second number
+			// the max idx that it can be is the actual hand size - 1
+			vadiatedNum = validateNumber(extractedUserInputStr[1], 0,
+					mPlayerHand.getTotalHandCardNum() - 1);
+
+			// validating the meldIdx which is the last number
+			// the max idx that it can be is the hand size - 1
+			int vadiatedMeldNum = validateNumber(
+					extractedUserInputStr[extractedUserInputStr.length - 1], 0,
+					mPlayerHand.getTotalMeldNum());
+
+			if (vadiatedNum < 0)
+			{
+				Message.addMessage("Invalid actual hand index!!");
+				errorFound = true;
+			}
+			else if (vadiatedMeldNum < 0)
+			{
+				Message.addMessage("Invalid meld index!!");
+				errorFound = true;
+			}
+			else
+			{
+				validUserInputVec.add(vadiatedNum);
+				validUserInputVec.add(vadiatedMeldNum);
+			}
+		}
+
+		// validating 5) -> if it is 5 then it should have atlease 3 number
+		// after it, these number represents the card idx in actual hands
+		else if (validUserInputVec.firstElement().equals(5)
+				&& extractedUserInputStr.length >= 4)
+		{
+			// validating all the passed the actualCardIndes
+
+			for (Integer strVecidx = 1; strVecidx < extractedUserInputStr.length; ++strVecidx)
+			{
+				// the max idx that it can be is the actual hand size - 1
+				vadiatedNum = validateNumber(extractedUserInputStr[strVecidx],
+						0, mPlayerHand.getTotalHandCardNum() - 1);
+
+				if (vadiatedNum < 0)
+				{
+					Message.addMessage("Invalid actual hand index!!");
+					errorFound = true;
+				}
+				validUserInputVec.add(vadiatedNum);
+			}
+		}
+
+		// validating 6) -> if it is 2 then it should have 2 number after
+		// it, these 2 number represents the card idx
+		// in meld and meld idx in the hand
+		else if (validUserInputVec.firstElement().equals(8)
+				&& extractedUserInputStr.length == 3)
+		{
+
+			// validating the meldIdx which is the last number
+			// the max idx that it can be is the hand size - 1
+			Integer validatedMeldIdx = validateNumber(
+					extractedUserInputStr[extractedUserInputStr.length - 1], 0,
+					mPlayerHand.getTotalMeldNum());
+
+			if (validatedMeldIdx < 0)
+			{
+				Message.addMessage("Invalid meld index!!");
+				errorFound = true;
+			}
+			else
+			{
+				// validating the actualCardIdx which is the second number
+				// the max idx that it can be is the actual hand size - 1
+				vadiatedNum = validateNumber(extractedUserInputStr[1], 0,
+						mPlayerHand.getHand().elementAt(validatedMeldIdx).size()
+								- 1);
+
+				if (vadiatedNum < 0)
+				{
+					Message.addMessage("Invalid card index in the Meld!!");
+					errorFound = true;
+				}
+				else
+				{
+					// adding the numbes in the same order
+					validUserInputVec.add(vadiatedNum);
+					validUserInputVec.add(validatedMeldIdx);
+				}
+			}
+		}
+		else
+		{
+			Message.addMessage(
+					"Invalid number of input argument for the chosen menu!!");
+			return mErrorPairCode;
+		}
+
+		if (errorFound)
+		{
+			return mErrorPairCode;
+		}
+
+		// valid input
+		return new Pair<Integer, Vector<Integer>>(3, validUserInputVec);
 	}
 
 	/**
@@ -303,7 +638,7 @@ public class Player {
 	 * 
 	 * @return true to indicate success
 	 */
-	boolean addToTotalPoints(int aPointsToAdd)
+	public boolean addToTotalPoints(int aPointsToAdd)
 	{
 		mTotalPoints += aPointsToAdd;
 		return true;
@@ -316,7 +651,7 @@ public class Player {
 	 * 
 	 * @return tallied hand Point
 	 */
-	int tallyHandPoint()
+	public int tallyHandPoint()
 	{
 		return mPlayerHand.tallyPoints(mWentOut);
 	}
@@ -328,22 +663,9 @@ public class Player {
 	 * 
 	 * @return false if the card to add was red three else true
 	 */
-	boolean addCardToHand(Card aDrawnCard)
+	public boolean addCardToHand(final Card aDrawnCard)
 	{
 		return mPlayerHand.addCardToHand(aDrawnCard);
-	}
-
-	/**
-	 * Empties the cards in the hand
-	 * 
-	 * @param none
-	 * 
-	 * @return true to indicate success
-	 */
-	boolean emptyHand()
-	{
-		mPlayerHand = new Hand();
-		return true;
 	}
 
 	/**
@@ -357,9 +679,29 @@ public class Player {
 	 * @return a pair of < Boolean, String >, < true, "" > if the card was moved
 	 *         to a meld successfully. else < false, "message string" >
 	 */
-	Pair<Boolean, String> addToMeld(Integer aHandCardIdx, Integer aMeldIdx)
+	public Pair<Boolean, String> addToMeld(Integer aHandCardIdx,
+			Integer aMeldIdx)
 	{
-		return new Pair<Boolean, String>(false, "");
+		switch (mPlayerHand.getCardAtIdx(0, aHandCardIdx).getCardType())
+		{
+		case CARDTYPE_NATURAL:
+		{
+			return mPlayerHand.addNaturalCardToMeld(aHandCardIdx, aMeldIdx);
+		}
+		case CARDTYPE_WILDCARD:
+		{
+			return mPlayerHand.addWildCardToMeld(aHandCardIdx, aMeldIdx);
+		}
+		case CARDTYPE_BLACK_THREE:
+		{
+			return new Pair<Boolean, String>(false, "Cannot meld a Black 3");
+		}
+		default:
+		{
+			// technically this should never execute
+			return new Pair<Boolean, String>(false, "Card Type not found.");
+		}
+		}
 	}
 
 	/**
@@ -372,7 +714,7 @@ public class Player {
 	 *         added to a meld then the first of the pair is the index of meld
 	 *         where it can be added. else < -1, "message string" >
 	 */
-	Pair<Integer, String> canAddToMeld(Card aCardToAdd)
+	public Pair<Integer, String> canAddToMeld(final Card aCardToAdd)
 	{
 		return mPlayerHand.canAddToMeld(aCardToAdd);
 	}
@@ -386,7 +728,7 @@ public class Player {
 	 * @return a pair of < Boolean, String >. < true, "" > if a meld was
 	 *         successfully made. else < false, message string >
 	 */
-	Pair<Boolean, String> makeNewMeld(Vector<Integer> aHandCardIdxList)
+	public Pair<Boolean, String> makeNewMeld(Vector<Integer> aHandCardIdxList)
 	{
 		return mPlayerHand.makeMeld(aHandCardIdxList);
 	}
@@ -402,7 +744,7 @@ public class Player {
 	 * @return a pair of < Boolean, String >, < true, "" > if wild card was
 	 *         taken out successfully . else < false, "message string" >
 	 */
-	Pair<Boolean, String> takeOutWildCard(Integer aMeldcardIdx,
+	public Pair<Boolean, String> takeOutWildCard(Integer aMeldcardIdx,
 			Integer aMeldIdx)
 	{
 		return mPlayerHand.takeOutWildCard(aMeldcardIdx, aMeldIdx);
@@ -417,7 +759,7 @@ public class Player {
 	 * 
 	 * @return object of Card, holds the card that was discarded
 	 */
-	Card discard(Integer aHandCardIdx)
+	public Card discard(Integer aHandCardIdx)
 	{
 		return mPlayerHand.discard(aHandCardIdx);
 	}
@@ -432,35 +774,77 @@ public class Player {
 	 * @return true to indicate that discard pile was successfully added to
 	 *         player's actual hand
 	 */
-	boolean pickUpDiscardPile(Vector<Card> aDiscardPile)
+	public boolean pickUpDiscardPile(final Vector<Card> aDiscardPile)
 	{
-		return false;
+		for (int pileIdx = 0; pileIdx < aDiscardPile.size(); ++pileIdx)
+		{
+			mPlayerHand.addCardToHand(aDiscardPile.elementAt(pileIdx));
+		}
+
+		return true;
 	}
 
 	/**
-	 * Verifies that the passed meld index is valid or not
+	 * Checks to see if we can pick up the discarded pile
 	 * 
-	 * @param aMeldIdx, a integer. It holds the index of the meld that is to be
-	 *                      validated
+	 * @param aDiscardPile a vector of cards that contains the discard pile
 	 * 
-	 * @return true if the passed meld idx is a valid meld index, else false
+	 * @return boolean value, returns true if we can pick up the discard pile
+	 *         else returns false.
 	 */
-	boolean validateMeldIdx(Integer aMeldIdx)
+	public boolean canPickUpDiscardPile(final Vector<Card> aDiscardPile)
 	{
-		return mPlayerHand.validateMeldIdx(aMeldIdx);
-	}
+		// see if we can meld the top of the discard pile
+		if (canAddToMeld(aDiscardPile.firstElement()).getFirst() == -1)
+		{
+			// creating a temp computer to check if the top of the card can be
+			// melded or not
+			// and doing as much meld as we can
+			Player tempComputer = new Player(this);
 
-	// returns true if the passed aCardIdx is a valid index of the passed meld
-	/**
-	 * default constructor
-	 * 
-	 * @param none
-	 * 
-	 * @return card in the hand in the printed format
-	 */
-	boolean validateCardIdx(Integer aMeldIdx, Integer aCardIdx)
-	{
-		return mPlayerHand.validateCardIdx(aMeldIdx, aCardIdx);
+			tempComputer.pickUpDiscardPile(new Vector<Card>(
+					Arrays.asList(new Card(aDiscardPile.firstElement()))));
+
+			// @todo make this into its own funciton as this is also used by the
+			// computer
+
+			// diving out cards at hand according to its rank
+			Vector<Vector<Card>> sameRankHandCardList = tempComputer
+					.getDividedAcualHandCardList();
+
+			// checking if we have a wildcard
+			Boolean hasWildCard = mPlayerHand.actualHandHasWildCard();
+
+			// checking if the there is any rank that has 3 cards in them or has
+			// 2 card and we have a wild card at hand
+			for (Vector<Card> rankVector : sameRankHandCardList)
+			{
+				if (rankVector.size() >= 3
+						|| (rankVector.size() == 2 && hasWildCard))
+				{
+					// only procede if we are dealing with natural card
+					if (rankVector.firstElement()
+							.getCardType() != ENUM_CardType.CARDTYPE_NATURAL)
+					{
+						continue;
+					}
+
+					// checking if the meld is going to be made out of the
+					// discard pile's top
+					if (rankVector.firstElement().getRank()
+							.equals(aDiscardPile.firstElement().getRank()))
+					{
+						return true;
+					}
+				}
+			}
+
+			// cannot be added to meld even when wildcards is present
+			return false;
+		}
+
+		// can be added to meld
+		return true;
 	}
 
 	/**
@@ -473,9 +857,22 @@ public class Player {
 	 * 
 	 * @return true if the passed aCardIdx is a valid index of the passed meld
 	 */
-	boolean canGoOut()
+	public boolean canGoOut()
 	{
 		return mPlayerHand.isActualHandEmpty() && mPlayerHand.getHasCanasta();
+	}
+
+	/**
+	 * Empties the cards in the hand
+	 * 
+	 * @param none
+	 * 
+	 * @return true to indicate success
+	 */
+	public boolean emptyHand()
+	{
+		mPlayerHand = new Hand();
+		return true;
 	}
 
 	/**
@@ -485,22 +882,40 @@ public class Player {
 	 * 
 	 * @return ool to indicate a successfull reset
 	 */
-	boolean resetPlayerForNewRound()
+	public boolean resetPlayerForNewRound()
 	{
-		return false;
+		mIsStartOfTurn = true;
+		mShowBeforeTurnMenu = true;
+		mWentOut = false;
+
+		// return the result of of the emptyHand
+		return emptyHand();
+	}
+
+	// returns true if the passed aCardIdx is a valid index of the passed meld
+	/**
+	 * default constructor
+	 * 
+	 * @param none
+	 * 
+	 * @return card in the hand in the printed format
+	 */
+	public boolean validateCardIdx(Integer aMeldIdx, Integer aCardIdx)
+	{
+		return mPlayerHand.validateCardIdx(aMeldIdx, aCardIdx);
 	}
 
 	/**
-	 * Checks to see if we can pick up the discarded pile
+	 * Verifies that the passed meld index is valid or not
 	 * 
-	 * @param aDiscardPile a vector of cards that contains the discard pile
+	 * @param aMeldIdx, a integer. It holds the index of the meld that is to be
+	 *                      validated
 	 * 
-	 * @return boolean value, returns true if we can pick up the discard pile
-	 *         else returns false.
+	 * @return true if the passed meld idx is a valid meld index, else false
 	 */
-	boolean canPickUpDiscardPile(Vector<Card> aDiscardPile)
+	public boolean validateMeldIdx(Integer aMeldIdx)
 	{
-		return false;
+		return mPlayerHand.validateMeldIdx(aMeldIdx);
 	}
 
 	/**
@@ -509,11 +924,10 @@ public class Player {
 	 * 
 	 * @param aNumToValidate,       a string containing the number that is to be
 	 *                                  validated
-	 * @param aInclusiveLowerBound, unsigned integer. lower bound that the
-	 *                                  passed number can be. It includes
-	 *                                  itself.
-	 * @param aInclusiveUpperBound, unsigned integer. upper bound that the
-	 *                                  passed number can be. It includes itself
+	 * @param aInclusiveLowerBound, Integer integer. lower bound that the passed
+	 *                                  number can be. It includes itself.
+	 * @param aInclusiveUpperBound, Integer integer. upper bound that the passed
+	 *                                  number can be. It includes itself
 	 * 
 	 * @return interger. if the passed number is valid then it returns the
 	 *         number as a interger. else returns -1
@@ -521,6 +935,37 @@ public class Player {
 	protected Integer validateNumber(String aNumToValidate,
 			Integer aInclusiveLowerBound, Integer aInclusiveUpperBound)
 	{
-		return 0;
+		// checking for null input or empty string
+		if (aNumToValidate == null || aNumToValidate.equals(""))
+		{
+			return -1;
+		}
+
+		int numToValidate;
+		// checking if the number has only digit
+		try
+		{
+			numToValidate = Integer.parseInt(aNumToValidate);
+		}
+		catch (NumberFormatException e)
+		{
+			return -1;
+		}
+
+		// checking if the number is out of range or not
+		if (numToValidate >= aInclusiveLowerBound
+				&& numToValidate <= aInclusiveUpperBound)
+		{
+			return numToValidate;
+		}
+
+		return -1;
+	}
+
+	public static void main(String[] args)
+	{
+		Player player = new Player();
+		System.out.println(player.toString());
+		player.turnContinueControl(null, null);
 	}
 }
