@@ -54,7 +54,7 @@ public class PlayerTest {
 		}
 		catch (ImproperMeldException e)
 		{
-			throw new ImproperMeldException(e.getMessage());
+			throw e;
 		}
 	}
 
@@ -151,6 +151,7 @@ public class PlayerTest {
 		copyPlayer.addCardToHand(cardToAdd);
 		assertEquals(expectedVec, copyPlayer.getActualHand());
 		assertNotEquals(expectedVec, mPlayer.getActualHand());
+
 	}
 
 	/**

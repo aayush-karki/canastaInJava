@@ -4,7 +4,7 @@
 
 -   Downloaded Android Studio and read documentation for it ( 2 hours ).
 
-###### Total: 2 hours 00 minutes.
+###### Total: 2 hours 00 minute.
 
 ## Oct 28, 2022:
 
@@ -12,9 +12,9 @@
 
 -   Tried to run hello world program on java in vs code, but it would not run on vs code ( 1 hour ).
 
--   Scraped my project and then stated to follow online guide from vs code official website. The problem still presisted so searched differnet sites for a solution. The solution after experimenting was to use run jave instead of run code ( 2 hour ).
+-   Scraped my project and then stated to follow online guide from vs code official website. The problem still presisted so searched differnet sites for a solution. The solution after experimenting was to use run jave instead of run code ( 2 hours ).
 
-###### Total: 5 hours 00 minutes.
+###### Total: 5 hours 00 minute.
 
 ## Nov 01, 2022:
 
@@ -26,7 +26,7 @@
 
 -   Researched and moved a tests from the main method to the test class and extended the tests( 1 hour and 30 minutes ).
 
-###### Total: 5 hours 00 minutes.
+###### Total: 5 hours 00 minute.
 
 ## Nov 06, 2022:
 
@@ -35,7 +35,7 @@
 
 -   Started and completed to create card Class ( 2 hours ).
 
-###### Total: 4 hours 00 minutes.
+###### Total: 4 hours 00 minute.
 
 ## Nov 08, 2022:
 
@@ -61,7 +61,7 @@
 
 -   Redid the compareTo funciton and researched and override the equals funciton ( 1 hour ).
 
-###### Total: 4 hours 00 minutes.
+###### Total: 4 hours 00 minute.
 
 ## Nov 11, 2022:
 
@@ -71,13 +71,13 @@
 
 -   Continued working on the hand class. In the process of transating the constructor for the calss, made the function that it depended on like sortMeld(), addCardToHand(), addRed3ToMeld) ( 2 hours ).
 
-###### Total: 4 hours 00 minutes.
+###### Total: 4 hours 00 minute.
 
 ## Nov 12, 2022:
 
 -   Continued working on the hand class. Made addCardToMeld() funcnction ( 30 minutes ).
 
--   tested all the funcitons that were currently in the hand Class ( 2 hour ).
+-   tested all the funcitons that were currently in the hand Class ( 2 hours ).
 
 -   Made and tested the MakeMeld funciton ( 1 hour 30 minutes )
 
@@ -115,15 +115,15 @@
 
 -   Started the Message and testMessage Class, and setup all the member funciton declaration with JavaDoc ( 1 hour ).
 
--   Started the Player class and setup all the member funciton declaration with JavaDoc ( 2 hour ).
+-   Started the Player class and setup all the member funciton declaration with JavaDoc ( 2 hours ).
 
 -   Started the testPlayer class and setup all the member funciton declaration with JavaDoc ( 1 hour ).
 
-###### Total: 4 hours 00 minutes.
+###### Total: 4 hours 00 minute.
 
 ## Nov 16, 2022:
 
--   Started populated the Deck and testDeck Class and tested it ( 2 hour ).
+-   Started populated the Deck and testDeck Class and tested it ( 2 hours ).
 
 -   Finished populated the Deck and testDeck Class and tested it ( 1 hour 15 minutes ).
 
@@ -133,7 +133,7 @@
 
 ## Nov 20, 2022:
 
--   Started populated the Player with its constructor,constructor with paramaeters and copy constructor and tested it ( 2 hour ).
+-   Started populated the Player with its constructor,constructor with paramaeters and copy constructor and tested it ( 2 hours ).
 
 -   filled most of the single-line funcitons and tested them ( 2 hours )
 
@@ -141,7 +141,7 @@
 
 -   researched how to test user input and then tested the validateNumber function ( 45 minutes).
 
--   started testing beforeTurStartControl() but the test would not pass even though the values in the debugger were the same ( 2 hour ).
+-   started testing beforeTurStartControl() but the test would not pass even though the values in the debugger were the same ( 2 hours ).
 
 ###### Total: 7 hours 45 minutes.
 
@@ -151,16 +151,24 @@
 
 -   created turnStartControl and tested it ( 1 hour ).
 
--   created turnContinueControl and refacted the code multiple times to make it easier to follow ( 2 hour )
+-   created turnContinueControl and refacted the code multiple times to make it easier to follow ( 2 hours )
 
 ###### Total: 3 hours 45 minutes.
 
 ## Nov 22, 2022:
 
--   started testing turnContinueControl() and fixed multiple translation bugs ( 2 hour ).
+-   started testing turnContinueControl() and fixed multiple translation bugs ( 2 hours ).
 
--   completed the Player Class ( 2 hour ).
+-   completed the Player Class ( 2 hours ).
 
--   completed the PlayerTest Class while fixing the bugs ( 2 hour ).
+-   completed the PlayerTest Class while fixing the bugs ( 2 hours ).
 
-###### Total: 6 hours 00 minutes.
+###### Total: 6 hours 00 minute.
+
+## Nov 23, 2022:
+
+-   completed the Human Class and its testing ( 1 hour ).
+
+-   refactor the try and catch blocks thorugh out the project ( 30 minutes ).
+
+###### Total: 1 hours 30 minute.

@@ -187,7 +187,7 @@ public class DeckTest {
 		}
 		catch (EmptyStockException e)
 		{
-			throw new EmptyStockException(e.getMessage());
+			throw e;
 		}
 	}
 

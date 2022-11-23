@@ -69,15 +69,7 @@ public class Player {
 		mShowBeforeTurnMenu = true;
 		mIsStartOfTurn = true;
 		mWentOut = false;
-
-		try
-		{
-			mPlayerHand = new Hand(aHandCards, aMeldCards);
-		}
-		catch (ImproperMeldException e)
-		{
-			throw new ImproperMeldException(e.getMessage());
-		}
+		mPlayerHand = new Hand(aHandCards, aMeldCards);
 	}
 
 	/**

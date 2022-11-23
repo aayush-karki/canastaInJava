@@ -52,7 +52,7 @@ public class HandTest {
 		}
 		catch (ImproperMeldException e)
 		{
-			throw new ImproperMeldException(e.getMessage());
+			throw e;
 		}
 	}
 

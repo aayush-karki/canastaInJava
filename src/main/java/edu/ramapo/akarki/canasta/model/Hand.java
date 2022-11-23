@@ -57,14 +57,7 @@ public class Hand {
         // chekcing it the meld is empty then do nothing for melds
         if (!aMeldCards.isEmpty())
         {
-            try
-            {
-                pouplateMeldsFromString(aMeldCards);
-            }
-            catch (ImproperMeldException e)
-            {
-                throw new ImproperMeldException(e.getMessage());
-            }
+            pouplateMeldsFromString(aMeldCards);
         }
 
         // populating the actual hand
