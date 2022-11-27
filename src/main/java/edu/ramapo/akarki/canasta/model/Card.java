@@ -424,4 +424,31 @@ public class Card implements Comparable<Card> {
 
 		return actualHandStr.toString();
 	}
+
+	/**
+	 * Static method to check if the passed type is in the passed cardList
+	 * 
+	 * @param aCardType type of card we are trying to find
+	 * @param aCardVec  vector of card object, it holds card list is checked
+	 *                      against
+	 * 
+	 * @return Integer if the type is found returns the position of the card;
+	 *         else returns -1
+	 */
+	static public Integer hasTypeOfCard(ENUM_CardType aCardType,
+			Vector<Card> aCardVec)
+	{
+		Integer cardIdx = 0;
+		for (Card card : aCardVec)
+		{
+			if (card.getCardType().equals(aCardType))
+			{
+				return cardIdx;
+			}
+
+			++cardIdx;
+		}
+
+		return -1;
+	}
 }

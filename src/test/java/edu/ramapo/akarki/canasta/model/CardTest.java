@@ -1,6 +1,9 @@
 package edu.ramapo.akarki.canasta.model;
 
 import org.junit.Test;
+
+import edu.ramapo.akarki.canasta.model.Card.ENUM_CardType;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -245,5 +248,50 @@ public class CardTest {
 
 		assertEquals("3D 4H 4C 4S 4D 4H 4C",
 				Card.getAllCardInPrintedFormat(cardList));
+	}
+
+	/**
+	 * Test the Card's hasTypeOfCard()
+	 * 
+	 * @param none
+	 * 
+	 * @return none
+	 */
+	@Test
+	public void testHasTypeOfCard()
+	{
+		// testing empty list
+		assertEquals("", Card.getAllCardInPrintedFormat(new Vector<Card>()));
+
+		Integer expectedIdx = -1;
+		Vector<Card> cardList = new Vector<Card>();
+
+		// testing list for invalid result
+		assertEquals(expectedIdx, Card
+				.hasTypeOfCard(ENUM_CardType.CARDTYPE_BLACK_THREE, cardList));
+
+		// testing list for black 3
+		cardList.add(new Card("3S"));
+		expectedIdx = 0;
+		assertEquals(expectedIdx, Card
+				.hasTypeOfCard(ENUM_CardType.CARDTYPE_BLACK_THREE, cardList));
+
+		// testing list for red 3
+		cardList.add(new Card("3D"));
+		expectedIdx = 1;
+		assertEquals(expectedIdx,
+				Card.hasTypeOfCard(ENUM_CardType.CARDTYPE_RED_THREE, cardList));
+
+		// testing list for natural card
+		cardList.add(new Card("XC"));
+		expectedIdx = 2;
+		assertEquals(expectedIdx,
+				Card.hasTypeOfCard(ENUM_CardType.CARDTYPE_NATURAL, cardList));
+
+		// testing list for wildCard
+		cardList.add(new Card("J1"));
+		expectedIdx = 3;
+		assertEquals(expectedIdx,
+				Card.hasTypeOfCard(ENUM_CardType.CARDTYPE_WILDCARD, cardList));
 	}
 }

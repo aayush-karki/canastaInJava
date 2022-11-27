@@ -11,7 +11,7 @@ import edu.ramapo.akarki.canasta.exceptions.ImproperMeldException;
 
 public class HumanTest {
 	private Human mHuman = new Human();
-	Human playerWithParam;
+	Human humanWithParam;
 	private final String improperException = HandTest.improperException;
 
 	/**
@@ -22,14 +22,14 @@ public class HumanTest {
 	 * @return none
 	 */
 	@Test
-	public void playerWithParamDefaultContructor()
+	public void humanWithParamDefaultContructor()
 	{
 		assertEquals(0, mHuman.getTotalPoint());
 		assertEquals(new Vector<Card>(), mHuman.getActualHand());
 	}
 
 	/**
-	 * Test function to test the player's constructor for exception.
+	 * Test function to test the human's constructor for exception.
 	 * 
 	 * @param none
 	 * 
@@ -39,7 +39,7 @@ public class HumanTest {
 	 *                                   not valid
 	 */
 	@Test(expected = ImproperMeldException.class)
-	public void playerWithParamConstructorException()
+	public void humanWithParamConstructorException()
 			throws ImproperMeldException
 	{
 		try
@@ -61,7 +61,7 @@ public class HumanTest {
 	 * @return none
 	 */
 	@Test
-	public void playerWithParamContructorWithParam()
+	public void humanWithParamContructorWithParam()
 	{
 		try
 		{
@@ -131,9 +131,9 @@ public class HumanTest {
 	 * @return none
 	 */
 	@Test
-	public void playerWithParamCopyContructor()
+	public void humanWithParamCopyContructor()
 	{
-		// copying empty player
+		// copying empty human
 		Human copyHuman = new Human(mHuman);
 
 		Vector<Card> expectedVec = new Vector<Card>();

@@ -25,6 +25,12 @@ public class Player {
 	// holds the value of it the player went out
 	protected boolean mWentOut;
 
+	// holds if the wildCard Processing is in progress
+	protected boolean mWildCardInProcess;
+
+	// holds if the hand was empty in the previously
+	protected boolean mHandEmptyPreviously;
+
 	// pair error code
 	protected final Pair<Integer, Vector<Integer>> mErrorPairCode = new Pair<Integer, Vector<Integer>>(
 			10, new Vector<Integer>(Arrays.asList(10)));
@@ -43,6 +49,8 @@ public class Player {
 		mShowBeforeTurnMenu = true;
 		mIsStartOfTurn = true;
 		mWentOut = false;
+		mWildCardInProcess = true;
+		mHandEmptyPreviously = false;
 
 	}
 
@@ -69,6 +77,8 @@ public class Player {
 		mShowBeforeTurnMenu = true;
 		mIsStartOfTurn = true;
 		mWentOut = false;
+		mWildCardInProcess = true;
+		mHandEmptyPreviously = false;
 		mPlayerHand = new Hand(aHandCards, aMeldCards);
 	}
 
@@ -87,6 +97,8 @@ public class Player {
 		mShowBeforeTurnMenu = aOtherPlayer.mShowBeforeTurnMenu;
 		mIsStartOfTurn = aOtherPlayer.mIsStartOfTurn;
 		mWentOut = aOtherPlayer.mWentOut;
+		mWildCardInProcess = aOtherPlayer.mWildCardInProcess;
+		mHandEmptyPreviously = aOtherPlayer.mHandEmptyPreviously;
 
 		try
 		{
@@ -270,10 +282,12 @@ public class Player {
 	 *         first element is always the sub menu index or 10 for invalid
 	 *         input and every thing after that is what the it sub menus's
 	 *         funciton needs
+	 * 
+	 * @throws ImproperMeldException
 	 */
 	public Pair<Integer, Vector<Integer>> playerTurnController(
 			final Vector<Vector<Card>> aOtherPlayerMeld,
-			final Vector<Card> aDiscardPile)
+			final Vector<Card> aDiscardPile) throws ImproperMeldException
 	{
 		// before turn menu with function to save, take a turn
 		if (mShowBeforeTurnMenu)
@@ -402,10 +416,12 @@ public class Player {
 	 *         the second is vector of unsinged integer the the vector's first
 	 *         element is the sub menu index. rest of the element depends on the
 	 *         submenu chosen
+	 * 
+	 * @throws ImproperMeldException
 	 */
 	public Pair<Integer, Vector<Integer>> turnContinueControl(
 			final Vector<Vector<Card>> aOtherPlayerMeld,
-			final Vector<Card> aDiscardPile)
+			final Vector<Card> aDiscardPile) throws ImproperMeldException
 	{
 
 		// player has drawns a card or picked up the discard pile
@@ -731,6 +747,8 @@ public class Player {
 	/**
 	 * takes out wild card
 	 * 
+	 * @param aCardType,    a ENUM_CardType. it can be either CARDTYPE_WILDCARD,
+	 *                          or CARDTYPE_NATURAL
 	 * @param aMeldcardIdx, a integer. It holds the index of the card in meld
 	 *                          that is to be taken out
 	 * @param aMeldIdx,     a integer. It holds the index of the meld from where
@@ -739,10 +757,11 @@ public class Player {
 	 * @return a pair of < Boolean, String >, < true, "" > if wild card was
 	 *         taken out successfully . else < false, "message string" >
 	 */
-	public Pair<Boolean, String> takeOutWildCard(Integer aMeldcardIdx,
-			Integer aMeldIdx)
+	public Pair<Boolean, String> takeOutCardFromMeld(ENUM_CardType aCardType,
+			Integer aMeldcardIdx, Integer aMeldIdx)
 	{
-		return mPlayerHand.takeOutWildCard(aMeldcardIdx, aMeldIdx);
+		return mPlayerHand.takeOutCardFromMeld(aCardType, aMeldcardIdx,
+				aMeldIdx);
 	}
 
 	/**
@@ -800,8 +819,8 @@ public class Player {
 			tempComputer.pickUpDiscardPile(new Vector<Card>(
 					Arrays.asList(new Card(aDiscardPile.firstElement()))));
 
-			// @todo make this into its own funciton as this is also used by the
-			// computer
+			// TODO (REFACTOR) make this into its own funciton as this is also
+			// used by the computer
 
 			// diving out cards at hand according to its rank
 			Vector<Vector<Card>> sameRankHandCardList = tempComputer
@@ -948,8 +967,8 @@ public class Player {
 		}
 
 		// checking if the number is out of range or not
-		if (numToValidate  >= aInclusiveLowerBound
-				&& numToValidate < = aInclusiveUpperBound)
+		if (numToValidate >= aInclusiveLowerBound
+				&& numToValidate <= aInclusiveUpperBound)
 		{
 			return numToValidate;
 		}
@@ -959,8 +978,6 @@ public class Player {
 
 	public static void main(String[] args)
 	{
-		Player player = new Player();
-		System.out.println(player.toString());
-		player.turnContinueControl(null, null);
+
 	}
 }

@@ -1,6 +1,7 @@
 package edu.ramapo.akarki.canasta.model;
 
 import edu.ramapo.akarki.canasta.exceptions.ImproperMeldException;
+import edu.ramapo.akarki.canasta.model.Card.ENUM_CardType;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -706,30 +707,45 @@ public class HandTest {
 	}
 
 	/**
-	 * Test the Hand's takeOutWildCard()
+	 * Test the Hand's takeOutCardFromMeld()
 	 * 
 	 * @param none
 	 * 
 	 * @return none
 	 */
 	@Test
-	public void testTakeOutWildCard()
+	public void testTakeOutCardFromMeld()
 	{
 		try
 		{
 			Hand testHand = new Hand(" AS AD 4S   J1 J2 3S",
-					"[4H 4C 4S 4D 4H 4C J1] [JH JC  J1]  [3D] [3H]  ");
+					"[4H 4C 4S 4D 4H 4C J1] [JH JC  J1] [5H 5C  J1]  [3D] [3H]  ");
 
 			// testing for non wildcard takeout
-			assertEquals("Can not take out the card. It is not a wild card",
-					testHand.takeOutWildCard(0, 1).getSecond());
+			assertEquals("Can not take out the card",
+					testHand.takeOutCardFromMeld(
+							ENUM_CardType.CARDTYPE_BLACK_THREE, 0, 1)
+							.getSecond());
 
 			// testing for take out wild card
-			assertEquals("", testHand.takeOutWildCard(6, 3).getSecond());
+			assertEquals("", testHand
+					.takeOutCardFromMeld(ENUM_CardType.CARDTYPE_WILDCARD, 6, 3)
+					.getSecond());
 
 			// testing for disolving a meld
-			assertEquals("Disolving the Meld of J",
-					testHand.takeOutWildCard(2, 4).getSecond());
+			assertEquals("Disolving the Meld of J", testHand
+					.takeOutCardFromMeld(ENUM_CardType.CARDTYPE_WILDCARD, 2, 4)
+					.getSecond());
+
+			// testing for take out natural card
+			assertEquals("", testHand
+					.takeOutCardFromMeld(ENUM_CardType.CARDTYPE_NATURAL, 5, 3)
+					.getSecond());
+
+			// testing for disolving a meld
+			assertEquals("Disolving the Meld of 5", testHand
+					.takeOutCardFromMeld(ENUM_CardType.CARDTYPE_NATURAL, 2, 5)
+					.getSecond());
 		}
 		catch (ImproperMeldException e)
 		{

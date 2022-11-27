@@ -664,8 +664,10 @@ public class Hand {
     }
 
     /**
-     * takes out wild card
+     * takes out card form meld
      * 
+     * @param aCardType,    a ENUM_CardType. it can be either CARDTYPE_WILDCARD,
+     *                          or CARDTYPE_NATURAL
      * @param aMeldcardIdx, a integer. It holds the index of the card in meld
      *                          that is to be taken out
      * @param aMeldIdx,     a integer. It holds the index of the meld from where
@@ -674,15 +676,20 @@ public class Hand {
      * @return a pair of < Boolean, String >, < true, "" > if wild card was
      *         taken out successfully . else < false, "message string" >
      */
-    public Pair<Boolean, String> takeOutWildCard(Integer aMeldcardIdx,
-            Integer aMeldIdx)
+    public Pair<Boolean, String> takeOutCardFromMeld(ENUM_CardType aCardType,
+            Integer aMeldcardIdx, Integer aMeldIdx)
     {
         // checking if the a_meldcardIdx is a wild card or not
-        if (!mHandCards.get(aMeldIdx).get(aMeldcardIdx).getCardType()
-                .equals(ENUM_CardType.CARDTYPE_WILDCARD))
+        if ((!aCardType.equals(ENUM_CardType.CARDTYPE_WILDCARD)
+                && !mHandCards.get(aMeldIdx).get(aMeldcardIdx).getCardType()
+                        .equals(ENUM_CardType.CARDTYPE_WILDCARD))
+                || !aCardType.equals(ENUM_CardType.CARDTYPE_NATURAL)
+                        && !mHandCards.get(aMeldIdx).get(aMeldcardIdx)
+                                .getCardType()
+                                .equals(ENUM_CardType.CARDTYPE_NATURAL))
         {
             return new Pair<Boolean, String>(false,
-                    "Can not take out the card. It is not a wild card");
+                    "Can not take out the card");
         }
 
         // taking out the card and pushing it to actual hand and

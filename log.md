@@ -171,4 +171,28 @@
 
 -   refactor the try and catch blocks thorugh out the project ( 30 minutes ).
 
-###### Total: 1 hours 30 minute.
+-   completed the translation of the computer class ( 2 hours ).
+
+-   Started refactoring the turnContinueHelp funciton as it was a large large ( 2 hours)
+
+###### Total: 5 hours 30 minutes.
+
+## Nov 25, 2022:
+
+-   Completed the refactoring of the turnContinueHelp funcitons into smaller funcitons ( 2 hour ).
+
+-   Completed the testing of the refactored funcitons into smaller funcitons ( 2 hour ).
+
+###### Total: 4 hours 00 minute.
+
+## Nov 26, 2022:
+
+-   Started fixing the previously known bugs in the turnContinuHelp funciton( 2 hours ).
+
+-   Started testing the newly created funciton( 2 hours ).
+
+-   Completed fixing the previously known bugs in the turnContinuHelp funciton( 2 hours ).
+
+-   Completed testing the newly created funciton( 2 hours ).
+
+###### Total: 8 hours 00 minute.
