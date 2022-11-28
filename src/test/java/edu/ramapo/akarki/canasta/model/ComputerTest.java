@@ -8,8 +8,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.Vector;
 
-import javax.security.auth.x500.X500Principal;
-
 import org.junit.Test;
 
 import edu.ramapo.akarki.canasta.exceptions.ImproperMeldException;

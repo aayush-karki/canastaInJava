@@ -62,16 +62,6 @@ public class Hand {
 
         // populating the actual hand
         pouplateActualHandFromString(aHandCards);
-        /*
-         * TODO (BUG): Currently wild cards are left in the hand. Possible
-         * solution 1: When the round finishes initializing, loop over the hand
-         * and add any wild cards in the hand to a meld. Possible solution 2:
-         * When the round finishes initializing, use the computer’s AI to do as
-         * much as possible until discard is left.
-         */
-        /*
-         * When you do this also update the tally point test
-         */
     }
 
     /**
@@ -666,8 +656,6 @@ public class Hand {
     /**
      * takes out card form meld
      * 
-     * @param aCardType,    a ENUM_CardType. it can be either CARDTYPE_WILDCARD,
-     *                          or CARDTYPE_NATURAL
      * @param aMeldcardIdx, a integer. It holds the index of the card in meld
      *                          that is to be taken out
      * @param aMeldIdx,     a integer. It holds the index of the meld from where
@@ -676,20 +664,21 @@ public class Hand {
      * @return a pair of < Boolean, String >, < true, "" > if wild card was
      *         taken out successfully . else < false, "message string" >
      */
-    public Pair<Boolean, String> takeOutCardFromMeld(ENUM_CardType aCardType,
-            Integer aMeldcardIdx, Integer aMeldIdx)
+    public Pair<Boolean, String> takeOutCardFromMeld(Integer aMeldcardIdx,
+            Integer aMeldIdx)
     {
-        // checking if the a_meldcardIdx is a wild card or not
-        if ((!aCardType.equals(ENUM_CardType.CARDTYPE_WILDCARD)
-                && !mHandCards.get(aMeldIdx).get(aMeldcardIdx).getCardType()
-                        .equals(ENUM_CardType.CARDTYPE_WILDCARD))
-                || !aCardType.equals(ENUM_CardType.CARDTYPE_NATURAL)
-                        && !mHandCards.get(aMeldIdx).get(aMeldcardIdx)
-                                .getCardType()
-                                .equals(ENUM_CardType.CARDTYPE_NATURAL))
+        if (aMeldIdx == 0)
         {
             return new Pair<Boolean, String>(false,
-                    "Can not take out the card");
+                    "Can not take out the card from the actual hand");
+        }
+
+        // checking if the a_meldcardIdx is a wild card or not
+        if (mHandCards.get(aMeldIdx).get(aMeldcardIdx).getCardType()
+                .equals(ENUM_CardType.CARDTYPE_RED_THREE))
+        {
+            return new Pair<Boolean, String>(false,
+                    "Can not take out Red three card");
         }
 
         // taking out the card and pushing it to actual hand and
@@ -701,12 +690,17 @@ public class Hand {
 
         // checking if the meld still has 3 cards in it, if not
         // disolving the meld and moving the card to hand
-        //
-        // we only have to make sure that it has 3 cards in it as
-        // when we created the meld we know that it has atleast
-        // 2 natural cards in it.
+        Integer naturalCardCount = 0;
+        for (Card meldCard : mHandCards.get(aMeldIdx))
+        {
+            if (meldCard.getCardType().equals(ENUM_CardType.CARDTYPE_NATURAL))
+            {
+                ++naturalCardCount;
+            }
+        }
+
         StringBuilder message = new StringBuilder();
-        if (mHandCards.get(aMeldIdx).size() < 3)
+        if (mHandCards.get(aMeldIdx).size() < 3 || naturalCardCount < 2)
         {
             // moving all the card to actual hand
             for (Card card : mHandCards.get(aMeldIdx))

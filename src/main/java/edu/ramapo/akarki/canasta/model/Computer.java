@@ -3,10 +3,6 @@ package edu.ramapo.akarki.canasta.model;
 import java.util.Arrays;
 import java.util.Vector;
 
-import javax.imageio.plugins.bmp.BMPImageWriteParam;
-import javax.net.ssl.ExtendedSSLSession;
-import javax.xml.transform.Templates;
-
 import edu.ramapo.akarki.canasta.exceptions.ImproperMeldException;
 import edu.ramapo.akarki.canasta.model.Card.ENUM_CardType;
 
@@ -122,13 +118,11 @@ public class Computer extends Player {
 	 *         the second is vector of unsinged integer the the vector's first
 	 *         element is the sub menu index. rest of the element depends on the
 	 *         submenu chosen
-	 * 
-	 * @throws ImproperMeldException
 	 */
 	@Override
 	public Pair<Integer, Vector<Integer>> turnContinueControl(
 			final Vector<Vector<Card>> aOtherPlayerMeld,
-			final Vector<Card> aDiscardPile) throws ImproperMeldException
+			final Vector<Card> aDiscardPile)
 	{
 		// player has drawns a card or picked up the discard pile
 
@@ -299,12 +293,10 @@ public class Computer extends Player {
 	 *         The inside pair contains the current submenu index which is 3 and
 	 *         the choice. The out side pair's second contains the reasoning
 	 *         behind its choice.
-	 * 
-	 * @throws ImproperMeldException
 	 */
 	public Pair<Pair<Integer, Vector<Integer>>, String> turnContinueHelp(
 			final Vector<Vector<Card>> aOtherPlayerMeld,
-			final Vector<Card> aDiscardPile) throws ImproperMeldException
+			final Vector<Card> aDiscardPile)
 	{
 		// now player have 6 choices until they discard or go out:
 		// else it is not the start of the round so they have 5 choices
@@ -790,12 +782,10 @@ public class Computer extends Player {
 	 *         The inside pair contains the current submenu index which is 3 and
 	 *         the choice. The out side pair's second contains the reasoning
 	 *         behind its choice.
-	 * 
-	 * @throws ImproperMeldException
 	 */
 	protected Pair<Pair<Integer, Vector<Integer>>, String> emptyHandDiscardLogic(
 			final Vector<Vector<Card>> aOtherPlayerMeld,
-			final Vector<Card> aDiscardPile) throws ImproperMeldException
+			final Vector<Card> aDiscardPile)
 	{
 		// remove the card from the a meld from where a card can be be taken
 		// out without the meld breaking
@@ -828,30 +818,42 @@ public class Computer extends Player {
 		}
 
 		// make a temp computer and see which card it suggest to discard
+		try
+		{
 
-		Computer tempComputer = new Computer(0,
-				Card.getAllCardInPrintedFormat(validCardToRemoveFromMeld), "");
+			Computer tempComputer = new Computer(0,
+					Card.getAllCardInPrintedFormat(validCardToRemoveFromMeld),
+					"");
 
-		Pair<Pair<Integer, Vector<Integer>>, String> returnPair = tempComputer
-				.discardLogic(aOtherPlayerMeld, aDiscardPile);
+			Pair<Pair<Integer, Vector<Integer>>, String> returnPair = tempComputer
+					.discardLogic(aOtherPlayerMeld, aDiscardPile);
 
-		Card tempCompSuggestedCard = tempComputer.getActualHand()
-				.get(returnPair.getFirst().getSecond().lastElement());
-		Integer validMeldIdx = validMeldIdxList
-				.get(validCardToRemoveFromMeld.indexOf(tempCompSuggestedCard));
+			Card tempCompSuggestedCard = tempComputer.getActualHand()
+					.get(returnPair.getFirst().getSecond().lastElement());
+			Integer validMeldIdx = validMeldIdxList.get(
+					validCardToRemoveFromMeld.indexOf(tempCompSuggestedCard));
 
-		Vector<Integer> returnChoice = new Vector<Integer>(2);
-		returnChoice.add(8);
-		returnChoice.add(0);
-		returnChoice.add(validMeldIdx);
+			Vector<Integer> returnChoice = new Vector<Integer>(2);
+			returnChoice.add(8);
+			returnChoice.add(0);
+			returnChoice.add(validMeldIdx);
 
-		StringBuilder message = new StringBuilder("Take out the natural card");
-		message.append(" from the meld at index " + validMeldIdx.toString());
-		message.append("\nDo this to so that you can discard it");
+			StringBuilder message = new StringBuilder(
+					"Take out the natural card");
+			message.append(
+					" from the meld at index " + validMeldIdx.toString());
+			message.append("\nDo this to so that you can discard it");
 
-		return new Pair<Pair<Integer, Vector<Integer>>, String>(
-				new Pair<Integer, Vector<Integer>>(3, returnChoice),
-				message.toString());
+			return new Pair<Pair<Integer, Vector<Integer>>, String>(
+					new Pair<Integer, Vector<Integer>>(3, returnChoice),
+					message.toString());
+		}
+		catch (ImproperMeldException e)
+		{
+			// this is never gonna happen
+			return new Pair<Pair<Integer, Vector<Integer>>, String>(
+					mErrorPairCode, "");
+		}
 	}
 
 	/**
@@ -884,15 +886,12 @@ public class Computer extends Player {
 			// adding a wildcard to the meld
 			Pair<Boolean, String> addResult = tempComp.addToMeld(0, meldIdx);
 
-			if (Boolean.TRUE.equals(addResult.getFirst()))
+			if (Boolean.TRUE.equals(addResult.getFirst())
+					&& meld.size() > largestMeldSize)
 			{
 				// success
-				// compare the length
-				if (meld.size() > largestMeldSize)
-				{
-					largestMeldIdxToAddWC = meldIdx;
-					largestMeldSize = meld.size();
-				}
+				largestMeldIdxToAddWC = meldIdx;
+				largestMeldSize = meld.size();
 			}
 
 			++meldIdx;

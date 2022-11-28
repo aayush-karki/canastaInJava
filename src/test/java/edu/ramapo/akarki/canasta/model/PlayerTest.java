@@ -1121,7 +1121,7 @@ public class PlayerTest {
 		try
 		{
 			playerWithParam = new Player(100, " AS AD 4S   J1 J2 3S",
-					"[4H 4C 4S 4D 4H 4C J1] [JH JC  J1] [5H 5C  J1]  [3D] [3H]  ");
+					"[4H 4C 4S 4D 4H 4C J1] [JH JC  J1] [5H 5C 5C J1]  [3D] [3H]  ");
 
 		}
 		catch (ImproperMeldException e)
@@ -1130,29 +1130,25 @@ public class PlayerTest {
 		}
 
 		// testing for non wildcard takeout
-		assertEquals("Can not take out the card. It is not a wild card",
-				playerWithParam.takeOutCardFromMeld(
-						ENUM_CardType.CARDTYPE_BLACK_THREE, 0, 1).getSecond());
+		assertEquals("Can not take out Red three card",
+				playerWithParam.takeOutCardFromMeld(0, 1).getSecond());
 
 		// testing for take out wild card
-		assertEquals("", playerWithParam
-				.takeOutCardFromMeld(ENUM_CardType.CARDTYPE_WILDCARD, 6, 3)
-				.getSecond());
+		assertEquals("", playerWithParam.takeOutCardFromMeld(6, 3).getSecond());
 
 		// testing for disolving a meld
-		assertEquals("Disolving the Meld of J", playerWithParam
-				.takeOutCardFromMeld(ENUM_CardType.CARDTYPE_WILDCARD, 2, 4)
-				.getSecond());
+		assertEquals("Disolving the Meld of J",
+				playerWithParam.takeOutCardFromMeld(2, 4).getSecond());
 
 		// testing for take out natural card
-		assertEquals("Disolving the Meld of J", playerWithParam
-				.takeOutCardFromMeld(ENUM_CardType.CARDTYPE_NATURAL, 5, 3)
-				.getSecond());
+		assertEquals("", playerWithParam.takeOutCardFromMeld(5, 3).getSecond());
 
-		// testing for disolving a meld
-		assertEquals("Disolving the Meld of J", playerWithParam
-				.takeOutCardFromMeld(ENUM_CardType.CARDTYPE_NATURAL, 2, 5)
-				.getSecond());
+		// taking out natural card
+		assertEquals("", playerWithParam.takeOutCardFromMeld(2, 4).getSecond());
+
+		// testing for disolving a meld when taking out natural card
+		assertEquals("Disolving the Meld of 5",
+				playerWithParam.takeOutCardFromMeld(1, 4).getSecond());
 	}
 
 	/**

@@ -282,12 +282,10 @@ public class Player {
 	 *         first element is always the sub menu index or 10 for invalid
 	 *         input and every thing after that is what the it sub menus's
 	 *         funciton needs
-	 * 
-	 * @throws ImproperMeldException
 	 */
 	public Pair<Integer, Vector<Integer>> playerTurnController(
 			final Vector<Vector<Card>> aOtherPlayerMeld,
-			final Vector<Card> aDiscardPile) throws ImproperMeldException
+			final Vector<Card> aDiscardPile)
 	{
 		// before turn menu with function to save, take a turn
 		if (mShowBeforeTurnMenu)
@@ -416,12 +414,10 @@ public class Player {
 	 *         the second is vector of unsinged integer the the vector's first
 	 *         element is the sub menu index. rest of the element depends on the
 	 *         submenu chosen
-	 * 
-	 * @throws ImproperMeldException
 	 */
 	public Pair<Integer, Vector<Integer>> turnContinueControl(
 			final Vector<Vector<Card>> aOtherPlayerMeld,
-			final Vector<Card> aDiscardPile) throws ImproperMeldException
+			final Vector<Card> aDiscardPile)
 	{
 
 		// player has drawns a card or picked up the discard pile
@@ -747,8 +743,6 @@ public class Player {
 	/**
 	 * takes out wild card
 	 * 
-	 * @param aCardType,    a ENUM_CardType. it can be either CARDTYPE_WILDCARD,
-	 *                          or CARDTYPE_NATURAL
 	 * @param aMeldcardIdx, a integer. It holds the index of the card in meld
 	 *                          that is to be taken out
 	 * @param aMeldIdx,     a integer. It holds the index of the meld from where
@@ -757,11 +751,10 @@ public class Player {
 	 * @return a pair of < Boolean, String >, < true, "" > if wild card was
 	 *         taken out successfully . else < false, "message string" >
 	 */
-	public Pair<Boolean, String> takeOutCardFromMeld(ENUM_CardType aCardType,
-			Integer aMeldcardIdx, Integer aMeldIdx)
+	public Pair<Boolean, String> takeOutCardFromMeld(Integer aMeldcardIdx,
+			Integer aMeldIdx)
 	{
-		return mPlayerHand.takeOutCardFromMeld(aCardType, aMeldcardIdx,
-				aMeldIdx);
+		return mPlayerHand.takeOutCardFromMeld(aMeldcardIdx, aMeldIdx);
 	}
 
 	/**
@@ -974,10 +967,5 @@ public class Player {
 		}
 
 		return -1;
-	}
-
-	public static void main(String[] args)
-	{
-
 	}
 }

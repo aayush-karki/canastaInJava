@@ -205,4 +205,18 @@
 
 -   Ended up scraping the fileAccess class and start a write it all up from scratch and then tested it ( 2 hours ).
 
-###### Total: 2 hours 45 minutes.
+-   started translating the funcitons for the round class ( 2 hours )
+
+-   Starting translating the Round class. Setup the class with funciton declaration ( 2 hours )
+
+###### Total: 8 hours 45 minutes.
+
+## Nov 28, 2022:
+
+-   continued translating the funcitons for the round class ( 2 hours )
+
+-   finished translating the round class ( 2 hours )
+
+-   fixed the bug in takeOutWildCard ( 30 minutes )
+
+###### Total: 6 hours 30 minutes.
