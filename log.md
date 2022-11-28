@@ -196,3 +196,13 @@
 -   Completed testing the newly created funciton( 2 hours ).
 
 ###### Total: 8 hours 00 minute.
+
+## Nov 27, 2022:
+
+-   Started translating the FileAccess class( 45 minutes ).
+
+-   spend a lot of time to make the isfileopen function but could not fix it at all ( 2 hours )
+
+-   Ended up scraping the fileAccess class and start a write it all up from scratch and then tested it ( 2 hours ).
+
+###### Total: 2 hours 45 minutes.
