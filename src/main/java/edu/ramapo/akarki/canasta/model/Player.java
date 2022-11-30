@@ -1,7 +1,6 @@
 package edu.ramapo.akarki.canasta.model;
 
 import java.util.Arrays;
-import java.util.Scanner;
 import java.util.Vector;
 
 import edu.ramapo.akarki.canasta.exceptions.ImproperMeldException;
@@ -140,6 +139,18 @@ public class Player {
 	public int getTotalPoint()
 	{
 		return mTotalPoints;
+	}
+
+	/**
+	 * Get players hand
+	 * 
+	 * @param none
+	 * 
+	 * @return Vector of vector of Cards object that holds player's hand
+	 */
+	public Vector<Vector<Card>> getHand()
+	{
+		return mPlayerHand.getHand();
 	}
 
 	/**
@@ -330,13 +341,11 @@ public class Player {
 
 		// used to get the userInput
 		// object to read from console
-		Scanner cin = new Scanner(System.in);
-		String userInputStr = cin.nextLine();
-		cin.close();
+		String userInputStr = UtitlityFunc.getUserInput();
 
 		// validaing the userInput
 		// a valid user input is 1, or 2, or 3
-		int vadiatedNum = validateNumber(userInputStr, 1, 3);
+		int vadiatedNum = UtitlityFunc.validateNumber(userInputStr, 1, 3);
 		if (vadiatedNum < 0)
 		{
 			Message.addMessage("Invalid Input!!");
@@ -384,13 +393,11 @@ public class Player {
 
 		// used to get the userInput
 		// object to read from console
-		Scanner cin = new Scanner(System.in);
-		String userInputStr = cin.nextLine();
-		cin.close();
+		String userInputStr = UtitlityFunc.getUserInput();
 
 		// validaing the userInput
 		// a valid user input is 1, or 2, or 3, or 4, or 5
-		int vadiatedNum = validateNumber(userInputStr, 1, 5);
+		int vadiatedNum = UtitlityFunc.validateNumber(userInputStr, 1, 5);
 		if (vadiatedNum < 0)
 		{
 			Message.addMessage("Invalid Input!!");
@@ -456,9 +463,8 @@ public class Player {
 
 		// used to get the userInput
 		// object to read from console
-		Scanner cin = new Scanner(System.in);
-		String userInputStr = cin.nextLine();
-		cin.close();
+
+		String userInputStr = UtitlityFunc.getUserInput();
 
 		// extracting user input
 		String[] extractedUserInputStr = userInputStr.split("\\s+");
@@ -485,7 +491,8 @@ public class Player {
 
 		// validating 1) - > a first valid user input
 		// is 1, or 2, or 3, or 4, or 5, or 6, or 7, or 8
-		int vadiatedNum = validateNumber(extractedUserInputStr[0], 1, 8);
+		int vadiatedNum = UtitlityFunc.validateNumber(extractedUserInputStr[0],
+				1, 8);
 
 		if (vadiatedNum < 0)
 		{
@@ -512,7 +519,7 @@ public class Player {
 				&& extractedUserInputStr.length == 2)
 		{
 			// the max idx that it can be is the actual hand size - 1
-			vadiatedNum = validateNumber(
+			vadiatedNum = UtitlityFunc.validateNumber(
 					extractedUserInputStr[extractedUserInputStr.length - 1], 0,
 					mPlayerHand.getActualHand().size() - 1);
 
@@ -535,12 +542,12 @@ public class Player {
 		{
 			// validating the actualCardIdx which is the second number
 			// the max idx that it can be is the actual hand size - 1
-			vadiatedNum = validateNumber(extractedUserInputStr[1], 0,
-					mPlayerHand.getTotalHandCardNum() - 1);
+			vadiatedNum = UtitlityFunc.validateNumber(extractedUserInputStr[1],
+					0, mPlayerHand.getTotalHandCardNum() - 1);
 
 			// validating the meldIdx which is the last number
 			// the max idx that it can be is the hand size - 1
-			int vadiatedMeldNum = validateNumber(
+			int vadiatedMeldNum = UtitlityFunc.validateNumber(
 					extractedUserInputStr[extractedUserInputStr.length - 1], 0,
 					mPlayerHand.getTotalMeldNum());
 
@@ -571,8 +578,9 @@ public class Player {
 			for (Integer strVecidx = 1; strVecidx < extractedUserInputStr.length; ++strVecidx)
 			{
 				// the max idx that it can be is the actual hand size - 1
-				vadiatedNum = validateNumber(extractedUserInputStr[strVecidx],
-						0, mPlayerHand.getTotalHandCardNum() - 1);
+				vadiatedNum = UtitlityFunc.validateNumber(
+						extractedUserInputStr[strVecidx], 0,
+						mPlayerHand.getTotalHandCardNum() - 1);
 
 				if (vadiatedNum < 0)
 				{
@@ -592,7 +600,7 @@ public class Player {
 
 			// validating the meldIdx which is the last number
 			// the max idx that it can be is the hand size - 1
-			Integer validatedMeldIdx = validateNumber(
+			Integer validatedMeldIdx = UtitlityFunc.validateNumber(
 					extractedUserInputStr[extractedUserInputStr.length - 1], 0,
 					mPlayerHand.getTotalMeldNum());
 
@@ -605,7 +613,8 @@ public class Player {
 			{
 				// validating the actualCardIdx which is the second number
 				// the max idx that it can be is the actual hand size - 1
-				vadiatedNum = validateNumber(extractedUserInputStr[1], 0,
+				vadiatedNum = UtitlityFunc.validateNumber(
+						extractedUserInputStr[1], 0,
 						mPlayerHand.getHand().elementAt(validatedMeldIdx).size()
 								- 1);
 
@@ -923,49 +932,5 @@ public class Player {
 	public boolean validateMeldIdx(Integer aMeldIdx)
 	{
 		return mPlayerHand.validateMeldIdx(aMeldIdx);
-	}
-
-	/**
-	 * validate that rhe passed string is a number that is between lowerLimit
-	 * and upperLimit inclusively. if yes return the integer else -1
-	 * 
-	 * @param aNumToValidate,       a string containing the number that is to be
-	 *                                  validated
-	 * @param aInclusiveLowerBound, Integer integer. lower bound that the passed
-	 *                                  number can be. It includes itself.
-	 * @param aInclusiveUpperBound, Integer integer. upper bound that the passed
-	 *                                  number can be. It includes itself
-	 * 
-	 * @return interger. if the passed number is valid then it returns the
-	 *         number as a interger. else returns -1
-	 */
-	protected Integer validateNumber(String aNumToValidate,
-			Integer aInclusiveLowerBound, Integer aInclusiveUpperBound)
-	{
-		// checking for null input or empty string
-		if (aNumToValidate == null || aNumToValidate.equals(""))
-		{
-			return -1;
-		}
-
-		int numToValidate;
-		// checking if the number has only digit
-		try
-		{
-			numToValidate = Integer.parseInt(aNumToValidate);
-		}
-		catch (NumberFormatException e)
-		{
-			return -1;
-		}
-
-		// checking if the number is out of range or not
-		if (numToValidate >= aInclusiveLowerBound
-				&& numToValidate <= aInclusiveUpperBound)
-		{
-			return numToValidate;
-		}
-
-		return -1;
 	}
 }

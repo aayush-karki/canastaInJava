@@ -13,7 +13,6 @@ import java.util.Vector;
 import org.junit.Test;
 
 import edu.ramapo.akarki.canasta.exceptions.ImproperMeldException;
-import edu.ramapo.akarki.canasta.model.Card.ENUM_CardType;
 
 public class PlayerTest {
 	private Player mPlayer = new Player();
@@ -1396,31 +1395,5 @@ public class PlayerTest {
 		{
 			assertEquals("Exception was thrown!!", improperException);
 		}
-	}
-
-	/**
-	 * Unit test the Player's validateNumber() function
-	 * 
-	 * @param none
-	 * 
-	 * @return none
-	 */
-	@Test
-	public void testValidateNumber()
-	{
-
-		Integer returnVal = -1;
-		assertEquals(returnVal, mPlayer.validateNumber(null, 1, 9));
-		assertEquals(returnVal, mPlayer.validateNumber("as", 1, 9));
-		assertEquals(returnVal, mPlayer.validateNumber("9as", 1, 9));
-		assertEquals(returnVal, mPlayer.validateNumber("", 1, 9));
-		assertEquals(returnVal, mPlayer.validateNumber("10", 1, 9));
-
-		returnVal = 9;
-		assertEquals(returnVal, mPlayer.validateNumber("9", 1, 9));
-		returnVal = 1;
-		assertEquals(returnVal, mPlayer.validateNumber("1", 1, 9));
-		returnVal = 5;
-		assertEquals(returnVal, mPlayer.validateNumber("5", 1, 9));
 	}
 }

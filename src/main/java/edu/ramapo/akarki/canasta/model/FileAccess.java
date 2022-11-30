@@ -77,9 +77,9 @@ public class FileAccess {
 		{
 			if (!newFile.createNewFile())
 			{
-				StringBuilder message = new StringBuilder("The Filename");
+				StringBuilder message = new StringBuilder("The Filename ");
 				message.append(passedFile.getFileName().toString());
-				message.append("already exists");
+				message.append(" already exists");
 				Message.addMessage(message.toString());
 				return false;
 			}
@@ -146,6 +146,7 @@ public class FileAccess {
 		}
 		catch (Exception e)
 		{
+			System.out.print(e.getMessage());
 			return new Vector<String>();
 		}
 	}

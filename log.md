@@ -219,4 +219,16 @@
 
 -   fixed the bug in takeOutWildCard ( 30 minutes )
 
-###### Total: 6 hours 30 minutes.
+-   started translating CanastaGame class ( 2 hour)
+
+###### Total: 8 hours 30 minutes.
+
+## Nov 29, 2022:
+
+-   finished translating CanastaGame class ( 2 hour)
+
+-   tested new game by playing it mode fixed lot of bugs that came up--like invalid memory access, wrong polymorphism where unlike in c++ where a human can be casted to computer, in java this is not allowed ( 2 hours )
+
+-   tested with the saved files, fixed lot of bugs--file not loading properly, lot of other small errors ( 2 hours )
+
+###### Total: 6 hours 0 minute.

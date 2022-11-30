@@ -628,7 +628,6 @@ public class Hand {
                         .equals(ENUM_CardType.CARDTYPE_WILDCARD);
     }
 
-    // checks if the meld has at least one wild card
     /**
      * takes the card at index from actual hand and moves // it to a meld if
      * possible

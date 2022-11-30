@@ -1,9 +1,7 @@
 package edu.ramapo.akarki.canasta.model;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.Vector;
 
 import edu.ramapo.akarki.canasta.exceptions.EmptyStockException;
@@ -84,6 +82,8 @@ public class Round {
 		mPlayerList = new Vector<Player>(2);
 		mPlayerList.add(new Computer());
 		mPlayerList.add(new Human());
+		// TODO delete me
+		// mPlayerList.add(new Computer());
 
 		// initialize the discard Pile
 		mDiscardPile = new Vector<Card>(108);
@@ -152,6 +152,10 @@ public class Round {
 		mPlayerList.add(
 				new Human(aHumanTotalScore, aHumanActualHand, aHumanMelds));
 
+		// TODO delete me
+		// mPlayerList.add(
+		// new Computer(aHumanTotalScore, aHumanActualHand, aHumanMelds));
+
 		// initialize the discard Pile
 		mDiscardPile = new Vector<Card>(108);
 
@@ -165,7 +169,13 @@ public class Round {
 			mDiscardPile.add(new Card(rankSuit));
 		}
 
-		// TODO auto meld the hand for both player
+		// TODO auto meld the hand for both player make this into a function
+		/*
+		 * THis funciton would follow the thing untill the computer decides to
+		 * discard. this should also be used every where the test computer is
+		 * used like in discard/draw choice funciton where the test comoputer
+		 * picksup discard pile then it shuld do its thing as far as possible
+		 */
 		/*
 		 * TODO (BUG): Currently wild cards are left in the hand. Possible
 		 * solution 1: When the round finishes initializing, loop over the hand
@@ -302,8 +312,8 @@ public class Round {
 	public Player getOtherPlayer()
 	{
 		return mPlayerTurn == ENUM_PlayerTurn.TURN_COMPUTER
-				? mPlayerList.firstElement()
-				: mPlayerList.lastElement();
+				? mPlayerList.lastElement()
+				: mPlayerList.firstElement();
 	}
 
 	/**
@@ -436,7 +446,6 @@ public class Round {
 			}
 			catch (EmptyStockException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -484,7 +493,7 @@ public class Round {
 		{
 			System.out.print(
 					"It is computer turn entry anything to procced a step: ");
-			getUserInput();
+			UtitlityFunc.getUserInput();
 		}
 
 		// check if the round is over
@@ -585,7 +594,7 @@ public class Round {
 			System.out.print("Would you like to play another round? (y/n) : ");
 
 			// used to get the userInput
-			String userInputStr = getUserInput();
+			String userInputStr = UtitlityFunc.getUserInput();
 
 			// validaing the userInput
 			// a valid user input is 'y' or 'n'
@@ -766,7 +775,7 @@ public class Round {
 		case 1:
 		{
 			Message.addMessage("Asking computer for help!");
-			Computer tempComp = new Computer((Computer) currPlayer);
+			Computer tempComp = new Computer(currPlayer);
 
 			Pair<Pair<Integer, Vector<Integer>>, String> turnStartHelpReturn = tempComp
 					.turnStartHelp(mDiscardPile);
@@ -798,10 +807,7 @@ public class Round {
 					// checking if the stock is empty and last dealt card was
 					// red
 					// three
-					if (!dealtCardResult)
-					{
-						mLastCardR3Drwan = true;
-					}
+					mLastCardR3Drwan = !dealtCardResult;
 				}
 			}
 
@@ -904,7 +910,7 @@ public class Round {
 		case 1:
 		{
 			Message.addMessage("Asking computer for help!");
-			Computer tempComp = new Computer((Computer) currPlayer);
+			Computer tempComp = new Computer(currPlayer);
 
 			Pair<Pair<Integer, Vector<Integer>>, String> message = tempComp
 					.turnContinueHelp(getOtherPlayer().getMelds(),
@@ -924,7 +930,7 @@ public class Round {
 					aUserChoiceVec.elementAt(1), aUserChoiceVec.elementAt(2));
 
 			// if the first is false then error
-			if (!result.getFirst())
+			if (Boolean.FALSE.equals(result.getFirst()))
 			{
 				return false;
 			}
@@ -1005,7 +1011,7 @@ public class Round {
 					.makeNewMeld(aUserChoiceVec);
 
 			// if the first is false then error
-			if (!result.getFirst())
+			if (Boolean.FALSE.equals(result.getFirst()))
 			{
 				Message.addMessage(result.getSecond());
 				return false;
@@ -1040,14 +1046,14 @@ public class Round {
 		case 8:
 		{
 			// trying to take out a wild card
-			Card wildCard = currPlayer.getMelds()
+			Card wildCard = currPlayer.getHand()
 					.elementAt(aUserChoiceVec.elementAt(2))
 					.elementAt(aUserChoiceVec.elementAt(1));
 			Pair<Boolean, String> result = currPlayer.takeOutCardFromMeld(
 					aUserChoiceVec.elementAt(1), aUserChoiceVec.elementAt(2));
 
 			// if the first is false then error
-			if (!result.getFirst())
+			if (Boolean.FALSE.equals(result.getFirst()))
 			{
 				Message.addMessage(result.getSecond());
 
@@ -1107,19 +1113,6 @@ public class Round {
 	}
 
 	/**
-	 * Gets user input
-	 * 
-	 * @return string, user input
-	 */
-	private String getUserInput()
-	{
-		Scanner cin = new Scanner(System.in);
-		String userInput = cin.nextLine();
-		cin.close();
-		return userInput;
-	}
-
-	/**
 	 * simulates a coin toss
 	 * 
 	 * @param none
@@ -1129,6 +1122,8 @@ public class Round {
 	private String tossACoin()
 	{
 		return (mRandom.nextInt(2)) == 0 ? "h" : "t";
+		// TODO delete me
+		// return "t";
 	}
 
 	/**
@@ -1169,15 +1164,21 @@ public class Round {
 				// printing the game tile
 				printGameTitle();
 
-				// printing the round
-				printRound();
+				// printing any messages
+				for (String currMessage : Message.getMessages())
+				{
+					System.out.println(currMessage);
+				}
+
+				// clearing the messages
+				Message.clearLatestMessages();
 
 				System.out.println(
 						"Tossing a coin to decide who starts the Round.");
 				System.out.println("Guess whether it is head or tails.");
 				System.out.println("Enter h for head or t for tail: ");
 
-				userInput = getUserInput();
+				userInput = UtitlityFunc.getUserInput();
 
 				if (userInput.length() == 1
 						&& ("ht".contains(userInput.toLowerCase())))

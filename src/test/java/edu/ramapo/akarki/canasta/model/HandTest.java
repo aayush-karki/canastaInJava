@@ -1,7 +1,6 @@
 package edu.ramapo.akarki.canasta.model;
 
 import edu.ramapo.akarki.canasta.exceptions.ImproperMeldException;
-import edu.ramapo.akarki.canasta.model.Card.ENUM_CardType;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

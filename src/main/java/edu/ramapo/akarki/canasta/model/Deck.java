@@ -1,6 +1,7 @@
 package edu.ramapo.akarki.canasta.model;
 
 import java.util.Collections;
+import java.util.Random;
 import java.util.Vector;
 
 import edu.ramapo.akarki.canasta.exceptions.EmptyStockException;
@@ -199,6 +200,10 @@ public class Deck {
 	 */
 	public boolean shuffel()
 	{
+		// moving all the card in m_dealt to m_stock
+		consodilateDeck();
+
+		Collections.shuffle(mStock, new Random(1));
 		return true;
 	}
 

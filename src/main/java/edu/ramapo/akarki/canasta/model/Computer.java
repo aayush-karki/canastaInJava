@@ -56,6 +56,20 @@ public class Computer extends Player {
 	}
 
 	/**
+	 * To create a new Computer object and copy the passed Computer object's
+	 * member variables data into the newly created Computer object
+	 * 
+	 * @param aOtherComputer , a object of Player class passed. It holds a
+	 *                           player object to be copied.
+	 * 
+	 * @return none
+	 */
+	public Computer(final Player aOther)
+	{
+		super(aOther);
+	}
+
+	/**
 	 * ` Contains the controller for before a turn starts and asks the user to
 	 * chose from "Save the game", "Take a turn" , or "Quit the game and go to
 	 * main menu"
@@ -256,16 +270,8 @@ public class Computer extends Player {
 
 		// we know that the hand point will end up increasing
 		// but by how much. what is the average gain in point?
-		else if (aDiscardPile.size() <= 5
-				&& (tempComputer.tallyHandPoint() - tallyHandPoint())
-						/ aDiscardPile.size() > 4)
-		{
-			returnChoice = new Vector<Integer>(Arrays.asList(3));
-			returnMessage = "If the discard pile is picked up, by the end of the turn on average each card will add 4 points.";
-		}
-		else if (aDiscardPile.size() > 5
-				&& (tempComputer.tallyHandPoint() - tallyHandPoint())
-						/ aDiscardPile.size() > 1)
+		else if ((tempComputer.tallyHandPoint() - tallyHandPoint())
+				/ aDiscardPile.size() >= 1)
 		{
 			returnChoice = new Vector<Integer>(Arrays.asList(3));
 			returnMessage = "If the discard pile is picked up, by the end of the turn on average each card will add 1 points.";
@@ -326,7 +332,7 @@ public class Computer extends Player {
 		}
 
 		// checking if the actual hand is empty
-		if (emptyHand() || mHandEmptyPreviously)
+		if (mPlayerHand.isActualHandEmpty() || mHandEmptyPreviously)
 		{
 			if (mHandEmptyPreviously)
 			{
@@ -794,9 +800,7 @@ public class Computer extends Player {
 		Vector<Integer> validMeldIdxList = new Vector<Integer>();
 
 		Integer meldIdx = 0;
-		for (Vector<Card> meld :
-
-		getMelds())
+		for (Vector<Card> meld : getMelds())
 		{
 			++meldIdx;
 			Card firstCard = meld.firstElement();
