@@ -3,8 +3,22 @@ package edu.ramapo.akarki.canasta.model;
 import java.io.InputStream;
 import java.util.Scanner;
 
+import javax.swing.text.Utilities;
+
 public class UtitlityFunc {
 	private static Scanner cin = new Scanner(System.in);
+
+	/**
+	 * Constructor
+	 * 
+	 * @param none
+	 * 
+	 * @return none
+	 */
+	private UtitlityFunc()
+	{
+
+	}
 
 	/**
 	 * validate that rhe passed string is a number that is between lowerLimit
