@@ -988,7 +988,7 @@ public class Hand {
         // populating the mHandCards
         for (String meld : meldSplited)
         {
-            if (meld.isBlank())
+            if (meld.trim().isEmpty())
             {
                 continue;
             }
@@ -999,7 +999,7 @@ public class Hand {
             // removing all the blanks
             for (String rankSuit : meldCardsSplited)
             {
-                if (!rankSuit.isBlank())
+                if (!rankSuit.trim().isEmpty())
                 {
                     meldCardsNoBlank.add(rankSuit);
                 }
@@ -1057,7 +1057,7 @@ public class Hand {
         // populating the mHandCards
         for (String rankSuit : handCardsSplited)
         {
-            if (!rankSuit.isBlank())
+            if (!rankSuit.trim().isEmpty())
             {
                 addCardToHand(new Card(rankSuit));
             }

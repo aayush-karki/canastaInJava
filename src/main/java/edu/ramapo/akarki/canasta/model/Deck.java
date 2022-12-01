@@ -68,7 +68,7 @@ public class Deck {
 		Vector<Card> tempStocks = new Vector<Card>();
 		for (String rankSuit : aStock.split((" +")))
 		{
-			if (rankSuit.isBlank())
+			if (rankSuit.trim().isEmpty())
 			{
 				continue;
 			}

@@ -81,9 +81,9 @@ public class Round {
 		// initializing 2 players
 		mPlayerList = new Vector<Player>(2);
 		mPlayerList.add(new Computer());
-		mPlayerList.add(new Human());
+		// mPlayerList.add(new Human());
 		// TODO delete me
-		// mPlayerList.add(new Computer());
+		mPlayerList.add(new Computer());
 
 		// initialize the discard Pile
 		mDiscardPile = new Vector<Card>(108);
@@ -149,19 +149,19 @@ public class Round {
 
 		mPlayerList.add(
 				new Computer(aCompTotalScore, aCompActualHand, aCompMelds));
-		mPlayerList.add(
-				new Human(aHumanTotalScore, aHumanActualHand, aHumanMelds));
+		// mPlayerList.add(
+		// new Human(aHumanTotalScore, aHumanActualHand, aHumanMelds));
 
 		// TODO delete me
-		// mPlayerList.add(
-		// new Computer(aHumanTotalScore, aHumanActualHand, aHumanMelds));
+		mPlayerList.add(
+				new Computer(aHumanTotalScore, aHumanActualHand, aHumanMelds));
 
 		// initialize the discard Pile
 		mDiscardPile = new Vector<Card>(108);
 
 		for (String rankSuit : aDiscardPile.split((" +")))
 		{
-			if (rankSuit.isBlank())
+			if (rankSuit.trim().isEmpty())
 			{
 				continue;
 			}
